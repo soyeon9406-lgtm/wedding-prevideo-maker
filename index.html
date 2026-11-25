@@ -688,7 +688,7 @@ input[type=range]::-moz-range-thumb{
           <span class="dz-main">사진 · 영상 추가</span>
           <span class="dz-sub">여러 개를 한 번에 고르거나 끌어다 놓으세요 · JPG · PNG · WebP · MP4 · MOV</span>
         </label>
-        <p class="hint">사진은 16:9로 잘려 담깁니다. 세로 사진은 위아래가 잘리니 얼굴이 가운데 있는 사진이 좋아요. 영상은 소리 없이 화면만 씁니다. 순서는 끌어서 바꾸거나 ▲▼ 버튼으로 조정하세요. 아이폰 HEIC 사진은 JPG로 변환해 올려 주세요.</p>
+        <p class="hint">사진은 16:9로 잘려 담깁니다. 세로 사진은 위아래가 잘리니 얼굴이 가운데 있는 사진이 좋아요. 영상은 소리 없이 화면만 씁니다(MP4 권장 · 아이폰 MOV는 기기에 따라 열림). 순서는 끌어서 바꾸거나 ▲▼ 버튼으로 조정하세요. 아이폰 HEIC 사진은 JPG로 변환해 올려 주세요.</p>
         <div class="split-add">
           <button class="btn ghost small" id="btnSplitAdd" type="button">＋ 좌우 2분할 컷 만들기</button>
           <input type="file" id="splitInput" accept="image/*,video/*" multiple hidden>
@@ -896,6 +896,7 @@ input[type=range]::-moz-range-thumb{
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div id="mediaSink" aria-hidden="true" style="position:fixed;left:-9999px;top:0;width:1px;height:1px;overflow:hidden;opacity:0.01;pointer-events:none"></div>
 <input type="file" id="slotInput" accept="image/*,video/*" hidden>
 
 <script>
@@ -1952,6 +1953,11 @@ function loadVideoClip(file){
     v.setAttribute('muted', '');
     v.preload = 'auto';
     v.src = url;
+    var sink = document.getElementById('mediaSink');
+    if (sink){
+      v.style.cssText = 'position:absolute;width:1px;height:1px;opacity:0.01;pointer-events:none';
+      sink.appendChild(v);
+    }
     var done = false;
     function ok(){
       if (done) return;
@@ -1996,6 +2002,7 @@ function releaseMedia(m){
   if (!m) return;
   if (m.el){
     try{ m.el.pause(); m.el.removeAttribute('src'); m.el.load(); }catch(e){}
+    try{ if (m.el.parentNode) m.el.parentNode.removeChild(m.el); }catch(e){}
   }
   if (m.url){
     try{ URL.revokeObjectURL(m.url); }catch(e){}
