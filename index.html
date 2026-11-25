@@ -3143,6 +3143,7 @@ function tlDown(e){
       var cbb = $('tlCut').querySelectorAll('.tl-block');
       for (var bi = 0; bi < cbb.length; bi++) cbb[bi].classList.toggle('sel', cbb[bi].getAttribute('data-clip') === id);
       renderInspector();
+      seekTo(sc.start + Math.min(0.3, sc.dur / 2));
     }
     TL.drag = {
       kind: (sc.type === 'photo' && !handleEl) ? 'clip-move' : 'clip-resize',
