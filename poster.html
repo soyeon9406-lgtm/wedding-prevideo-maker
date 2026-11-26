@@ -595,11 +595,12 @@ const TEMPLATES = {
         const card=((Math.floor(i/2)+i%2)%2)===1;
         return {x:c.x,y:c.y,w:c.w,h:c.h,r:0,card:card,heart:true};
       });
-      const c1=cells[1], c5=cells[5];
+      const c1=cells[1], c2=cells[2], c5=cells[5];
       return {
         slots:slots,
         texts:[
           tx('main',  c1.x+c1.w/2, c1.y+c1.h*.48, .0375,'serif', .0030, 1.24, c1.w*.50),
+          tx('sub',   c2.x+c2.w/2, c2.y+c2.h*.50, .0150,'sans',  .0110, 1.5,  c2.w*.78),
           tx('date',  c5.x+c5.w/2, c5.y+c5.h*.42, .0235,'serif', .0040, 1.2,  c5.w*.84),
           tx('names', c5.x+c5.w/2, c5.y+c5.h*.56, .0140,'sans',  .0050, 1.35, c5.w*.84)
         ],
