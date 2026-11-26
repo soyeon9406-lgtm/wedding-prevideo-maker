@@ -1706,6 +1706,8 @@ preview.addEventListener('pointerdown',function(ev){
   const hit=hitTest(pt);
   if(!hit){ S.sel=null; renderSelection(); renderPhotos(); draw(); return; }
   S.sel=hit;
+  if(hit.type==='text') renderTextList();
+  else if(hit.type==='dec') renderDecList();
   const W=preview.width,H=preview.height;
   if(hit.type==='text'){
     const t=S.texts.filter(function(x){return x.id===hit.id;})[0];
