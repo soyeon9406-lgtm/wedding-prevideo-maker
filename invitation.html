@@ -1454,7 +1454,7 @@ function buildScene(side) {
       addEl(list, 'account', '계좌', (c) => {
         if (!state.show.account || !f.account) return null;
         return textBlock(c, f.account, {
-          x: W * 0.1, y: H * 0.845, w: W * 0.34, size: U * 0.0175 * S, font: FONTS.sans.css, weight: 400,
+          x: W * 0.1, y: H * 0.845, w: W * 0.34, size: U * 0.021 * S, font: FONTS.sans.css, weight: 400,
           color: hexA(th.sub, 0.95), align: 'left', lh: 1.7
         });
       });
@@ -1938,10 +1938,11 @@ function drawGuides(th) {
   const crop = U * 0.022;
   const corners = [[0, 0], [CW, 0], [0, CH], [CW, CH]];
   for (const [x, y] of corners) {
+    const left = x < CW / 2, top = y < CH / 2;
     ctx.beginPath();
-    ctx.moveTo(x < CW / 2 ? x : x - crop, y < CH / 2 ? y + crop : y - crop);
-    ctx.lineTo(x < CW / 2 ? x : x - crop, y);
-    ctx.lineTo(x < CW / 2 ? x + crop : x - crop, y);
+    ctx.moveTo(left ? crop : CW - crop, top ? 0 : CH);
+    ctx.lineTo(left ? 0 : CW, top ? 0 : CH);
+    ctx.lineTo(left ? 0 : CW, top ? crop : CH - crop);
     ctx.stroke();
   }
   ctx.restore();
@@ -2131,6 +2132,9 @@ function updateQty() {
     : '하객 수를 입력하면 권장 수량을 계산해 드려요.';
 }
 function updateSpec() {
+  const sig = `${state.preset}|${state.size}|${state.side}`;
+  if (updateSpec._sig === sig) return;
+  updateSpec._sig = sig;
   const size = computeCanvas();
   const s = effectiveSize().s;
   const rows = [
@@ -2301,6 +2305,7 @@ $('#resetPhoto').addEventListener('click', () => {
   draw();
 });
 $('#removePhoto').addEventListener('click', () => {
+  filterCache.clear();
   state.photo.img = null; state.photo.dataUrl = '';
   $('#photoThumb').innerHTML = '';
   draw();
@@ -2336,6 +2341,7 @@ $('#samplePhoto').addEventListener('click', () => {
 
 /* 사진 업로드 */
 function setPhoto(img, url) {
+  filterCache.clear();
   state.photo.img = img;
   state.photo.dataUrl = url;
   state.photo.zoom = 1; state.photo.px = 0; state.photo.py = 0;
