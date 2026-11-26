@@ -1,0 +1,2488 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>셀프 청첩장 메이커 — 디자인부터 인쇄까지</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Nanum+Myeongjo:wght@400;700&family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Parisienne&family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#f6efe3;
+  --ivory:#fbf6ec;
+  --paper:#fffdf8;
+  --charcoal:#1b1815;
+  --ink:#2b2620;
+  --muted:#8a7f72;
+  --rose:#b5896a;
+  --rose-deep:#97694b;
+  --sage:#7c8a6b;
+  --line:rgba(43,38,32,.12);
+  --line-strong:rgba(43,38,32,.22);
+  --shadow:0 18px 40px -30px rgba(43,38,32,.5);
+  --serif:"Nanum Myeongjo","Noto Serif KR","Apple SD Gothic Neo",Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Malgun Gothic",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+html,body{margin:0;padding:0}
+body{
+  background:
+    radial-gradient(1100px 560px at 8% -8%, #fffaf1 0%, rgba(255,250,241,0) 62%),
+    radial-gradient(900px 520px at 100% 0%, #f1e3d0 0%, rgba(241,227,208,0) 58%),
+    var(--cream);
+  color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;min-height:100vh;
+}
+button,input,select,textarea{font-family:inherit}
+button{color:inherit}
+
+/* ---------- topbar ---------- */
+.topbar{max-width:1360px;margin:0 auto;padding:22px 22px 14px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:13px;min-width:0}
+.brand-mark{width:44px;height:44px;flex:0 0 auto;border-radius:50%;display:grid;place-items:center;font-size:19px;color:#fdf6ea;
+  background:linear-gradient(145deg,#3a312a,#1e1a16 60%,#443628);
+  box-shadow:inset 0 0 0 1px rgba(214,178,146,.35),0 8px 18px -12px rgba(27,24,21,.8)}
+.brand-text h1{font-family:var(--serif);font-size:23px;font-weight:700;letter-spacing:-.01em;margin:0;color:#221d19}
+.brand-text p{margin:2px 0 0;font-size:12.5px;color:var(--muted)}
+.top-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{appearance:none;border:1px solid transparent;border-radius:999px;padding:9px 16px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;text-decoration:none;
+  transition:transform .12s ease,background .16s ease,box-shadow .16s ease,color .16s ease,filter .16s ease}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--charcoal);color:#f8f0e3;box-shadow:0 10px 20px -16px rgba(27,24,21,.95)}
+.btn.primary:hover{background:#2e2823}
+.btn.accent{background:linear-gradient(135deg,#cd9f7c,#a87a55);color:#241a12;box-shadow:0 10px 22px -16px rgba(151,105,75,.95)}
+.btn.ghost{background:transparent;border-color:var(--line-strong);color:var(--ink)}
+.btn.ghost:hover{background:rgba(181,137,106,.1);border-color:var(--rose)}
+.btn.small{padding:6px 11px;font-size:12.5px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+/* ---------- layout ---------- */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 430px;gap:20px;align-items:start;max-width:1360px;margin:0 auto;padding:0 22px 56px}
+.col-main{display:flex;flex-direction:column;gap:12px;min-width:0}
+.stage-card{background:linear-gradient(165deg,#f9f3e8 0%,#efe5d3 100%);border:1px solid var(--line);border-radius:20px;padding:14px;box-shadow:var(--shadow)}
+.stage-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:0 2px 12px}
+.side-tabs{display:inline-flex;background:rgba(255,253,248,.75);border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px}
+.side-tab{appearance:none;border:0;background:transparent;border-radius:999px;padding:7px 15px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.side-tab b{font-weight:700}
+.side-tab .side-sub{font-size:10.5px;font-weight:600;color:#a29483;letter-spacing:.02em}
+.side-tab.active{background:var(--charcoal);color:#f8f0e3;box-shadow:0 8px 16px -14px rgba(27,24,21,.9)}
+.side-tab.active .side-sub{color:#d8c7b2}
+.stage-meta{font-size:11.5px;color:#8b7c6b;font-variant-numeric:tabular-nums;display:flex;gap:10px;flex-wrap:wrap}
+.stage-frame{position:relative;display:flex;align-items:center;justify-content:center;min-height:280px;padding:6px 0 2px;border-radius:12px}
+.stage-frame::before{content:"";position:absolute;inset:0;border-radius:14px;pointer-events:none;
+  background-image:radial-gradient(rgba(43,38,32,.10) 1px,transparent 1px);background-size:16px 16px;opacity:.5}
+.stage-frame canvas{position:relative;display:block;max-width:100%;max-height:70vh;width:auto;height:auto;border-radius:3px;
+  box-shadow:0 26px 50px -30px rgba(43,38,32,.75),0 0 0 1px rgba(43,38,32,.10);touch-action:none;cursor:grab;background:#fff}
+.stage-frame canvas:active{cursor:grabbing}
+.stage-hint{position:absolute;right:12px;bottom:10px;font-size:10.5px;color:#8b7c6b;background:rgba(255,253,248,.82);border:1px solid var(--line);border-radius:999px;padding:3px 9px;pointer-events:none}
+.stage-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 4px 2px;border-top:1px solid rgba(43,38,32,.07);margin-top:10px}
+.field-inline{display:flex;align-items:center;gap:7px;font-size:12px;color:#7c6f60;font-weight:600}
+select,input[type=text],input[type=date],input[type=number],textarea{color:var(--ink)}
+select{appearance:none;border:1px solid var(--line-strong);background:#fff;border-radius:9px;padding:6px 26px 6px 10px;font-size:12.5px;font-weight:600;cursor:pointer;
+  background-image:linear-gradient(45deg,transparent 50%,rgba(43,38,32,.6) 50%),linear-gradient(135deg,rgba(43,38,32,.6) 50%,transparent 50%);
+  background-position:calc(100% - 14px) 13px,calc(100% - 9px) 13px;background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+.px-info{font-size:11.5px;color:#8b7c6b;font-variant-numeric:tabular-nums;margin-left:auto}
+.chk{display:inline-flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
+.chk input{accent-color:#8a6a4c;width:14px;height:14px}
+.sel-bar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:10px;padding:8px 10px;border-radius:11px;
+  background:rgba(181,137,106,.12);border:1px solid rgba(181,137,106,.3);font-size:12.5px;color:#6f5847}
+.sel-bar b{color:#4d3a2a}
+.nudge{display:inline-flex;gap:3px;margin-left:auto}
+.nudge button{width:26px;height:26px;border-radius:7px;border:1px solid rgba(151,105,75,.35);background:#fffdf8;cursor:pointer;font-size:12px;line-height:1;display:grid;place-items:center}
+.nudge button:hover{background:#f5e6d6}
+
+/* ---------- steps ---------- */
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.step{background:rgba(255,253,248,.72);border:1px solid var(--line);border-radius:14px;padding:11px 13px;display:flex;flex-direction:column;gap:2px}
+.step b{font-size:12.5px;display:flex;align-items:center;gap:6px}
+.step b i{font-style:normal;width:18px;height:18px;border-radius:50%;background:rgba(181,137,106,.2);color:#7d5b41;font-size:10.5px;display:grid;place-items:center;font-weight:700}
+.step span{font-size:11.5px;color:var(--muted);line-height:1.5}
+
+/* ---------- panel ---------- */
+.panel{background:rgba(255,253,248,.86);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);overflow:hidden;position:sticky;top:14px}
+.ptabs{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;padding:8px 8px 0;border-bottom:1px solid var(--line);background:rgba(251,246,236,.7)}
+.ptab{appearance:none;border:0;background:transparent;padding:11px 4px 10px;font-size:12.5px;font-weight:600;color:#9a8b7a;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+.ptab.active{color:var(--charcoal);border-bottom-color:var(--rose)}
+.pbody{padding:15px 16px 22px;max-height:calc(100vh - 120px);overflow:auto}
+.pane{display:none;flex-direction:column;gap:14px}
+.pane.active{display:flex}
+.sec{display:flex;flex-direction:column;gap:9px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.sec-head h2{margin:0;font-family:var(--serif);font-size:14.5px;font-weight:700;letter-spacing:-.01em;color:#3a3129}
+.sec-head span{font-size:11px;color:var(--muted)}
+.hint{font-size:11.5px;color:#8b7c6b;line-height:1.55;margin:0}
+.hint b{color:#6f5847}
+
+.presets{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;align-items:start}
+.preset{appearance:none;border:1px solid var(--line);background:#fffdf8;border-radius:12px;padding:7px 7px 8px;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:5px;transition:border-color .15s,box-shadow .15s,transform .1s}
+.preset:hover{border-color:rgba(181,137,106,.6)}
+.preset:active{transform:translateY(1px)}
+.preset.active{border-color:var(--rose-deep);box-shadow:0 0 0 1px var(--rose-deep),0 10px 20px -18px rgba(151,105,75,.9);background:#fffaf3}
+.preset svg{width:100%;height:auto;display:block;border-radius:5px;background:#f8f1e5}
+.preset .pname{font-size:11.5px;font-weight:700;line-height:1.3;color:#3a3129}
+.preset .pdesc{font-size:10px;color:#9a8b7a;line-height:1.35}
+
+.swatches{display:flex;gap:7px;flex-wrap:wrap}
+.sw{appearance:none;border:1px solid var(--line);background:#fff;border-radius:10px;padding:5px 8px 5px 5px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-size:11px;font-weight:600;color:#6f6357}
+.sw i{width:16px;height:16px;border-radius:50%;display:block;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.sw.active{border-color:var(--rose-deep);box-shadow:0 0 0 1px var(--rose-deep)}
+
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:11px;font-weight:700;color:#857767;letter-spacing:.01em}
+.field input[type=text],.field input[type=date],.field input[type=number],.field textarea,.field select{width:100%;border:1px solid var(--line-strong);background:#fff;border-radius:9px;padding:8px 10px;font-size:13px;outline:none}
+.field textarea{resize:vertical;min-height:64px;line-height:1.6}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--rose);box-shadow:0 0 0 3px rgba(181,137,106,.15)}
+.field select{padding-right:24px;background-position:calc(100% - 13px) 15px,calc(100% - 8px) 15px}
+
+.range{display:flex;flex-direction:column;gap:2px}
+.range .rlabel{display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:#857767}
+.range .rlabel output{font-weight:600;color:#9a8b7a;font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:#a87a55;height:20px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{appearance:none;border:1px solid var(--line-strong);background:#fff;border-radius:999px;padding:5px 11px;font-size:11.5px;font-weight:600;color:#6f6357;cursor:pointer}
+.chip:hover{border-color:var(--rose)}
+.chip.active{background:var(--charcoal);color:#f8f0e3;border-color:var(--charcoal)}
+.chip.toggle{border-radius:9px}
+.chip.toggle.on{background:rgba(181,137,106,.18);border-color:var(--rose);color:#6f4c33}
+
+.drop{border:1.5px dashed rgba(151,105,75,.45);border-radius:12px;padding:12px;display:flex;gap:10px;align-items:center;cursor:pointer;background:rgba(255,255,255,.6);transition:background .15s}
+.drop:hover{background:#fff}
+.drop.drag{background:#fff6ea;border-color:var(--rose-deep)}
+.drop .thumb{width:52px;height:52px;border-radius:8px;background:#efe4d3 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23a08d76" stroke-width="1.4"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m4 17 5-4 4 3 3-2 4 3"/></svg>') center/60% no-repeat;flex:0 0 auto;overflow:hidden;border:1px solid var(--line)}
+.drop .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.drop .dtext{min-width:0}
+.drop .dtext b{display:block;font-size:12.5px}
+.drop .dtext span{font-size:11px;color:var(--muted);line-height:1.4;display:block}
+
+.card{background:#fffdf8;border:1px solid var(--line);border-radius:12px;padding:11px 12px;display:flex;flex-direction:column;gap:4px}
+.card .ctop{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.card .ctop b{font-size:12.5px;color:#3a3129}
+.badge{font-size:9.5px;font-weight:700;letter-spacing:.03em;padding:2px 7px;border-radius:999px;background:rgba(124,138,107,.16);color:#5d6a4e;border:1px solid rgba(124,138,107,.3)}
+.badge.rose{background:rgba(181,137,106,.16);color:#8a5e3f;border-color:rgba(181,137,106,.32)}
+.card p{margin:0;font-size:11.5px;color:#7c7064;line-height:1.55}
+.card .meta{font-size:10.5px;color:#9a8b7a}
+
+.tips{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}
+.tips li{position:relative;padding-left:15px;font-size:11.5px;color:#6f6357;line-height:1.55}
+.tips li::before{content:"";position:absolute;left:2px;top:6px;width:5px;height:5px;border-radius:50%;background:rgba(181,137,106,.55)}
+
+.checklist{display:flex;flex-direction:column;gap:2px}
+.check{display:flex;align-items:flex-start;gap:8px;padding:6px 2px;font-size:12px;color:#4f463c;cursor:pointer;border-bottom:1px dashed rgba(43,38,32,.07)}
+.check:last-child{border-bottom:0}
+.check input{margin-top:2px;accent-color:#8a6a4c;width:15px;height:15px;flex:0 0 auto}
+.check.done span{color:#a49a8d;text-decoration:line-through}
+.progress{height:5px;border-radius:999px;background:rgba(43,38,32,.08);overflow:hidden;margin-top:2px}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#c8a37f,#8a6a4c);transition:width .25s}
+
+.stack{display:flex;flex-direction:column;gap:7px}
+.calc{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}
+.calc-out{background:rgba(181,137,106,.1);border:1px solid rgba(181,137,106,.25);border-radius:10px;padding:9px 11px;font-size:12px;color:#6f5847;line-height:1.7}
+.calc-out b{color:#4d3a2a;font-variant-numeric:tabular-nums}
+.spec{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:11.5px}
+.spec dt{color:#9a8b7a;font-weight:600}
+.spec dd{margin:0;color:#4f463c;font-variant-numeric:tabular-nums}
+
+footer{max-width:1360px;margin:0 auto;padding:0 22px 40px;font-size:11.5px;color:#9a8b7a;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);background:rgba(27,24,21,.94);color:#f8f0e3;padding:10px 16px;border-radius:999px;font-size:12.5px;font-weight:600;
+  opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:50;box-shadow:0 16px 30px -18px rgba(0,0,0,.8);max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* responsive */
+@media (max-width:1080px){
+  .layout{grid-template-columns:minmax(0,1fr) 380px}
+}
+@media (max-width:900px){
+  .layout{grid-template-columns:1fr;padding:0 14px 44px}
+  .topbar{padding:16px 14px 10px}
+  .brand-text h1{font-size:20px}
+  .panel{position:static}
+  .pbody{max-height:none}
+  .stage-frame canvas{max-height:62vh}
+  .steps{grid-template-columns:1fr;gap:7px}
+  .step{flex-direction:row;align-items:baseline;gap:8px;padding:8px 11px}
+  .step span{flex:1}
+  .presets{grid-template-columns:repeat(3,1fr)}
+  footer{padding:0 14px 30px}
+}
+@media (max-width:560px){
+  body{font-size:14px}
+  .topbar{padding:13px 12px 8px;align-items:center}
+  .brand-mark{width:38px;height:38px;font-size:16px}
+  .brand-text h1{font-size:18px}
+  .brand-text p{font-size:11px}
+  .top-actions{width:100%;justify-content:flex-end}
+  .btn{padding:8px 13px;font-size:12.5px}
+  .layout{padding:0 10px 36px;gap:12px}
+  .stage-card{padding:10px;border-radius:16px}
+  .stage-meta{display:none}
+  .stage-frame{min-height:0}
+  .stage-frame canvas{max-height:56vh}
+  .stage-bar{gap:8px}
+  .px-info{margin-left:0;flex-basis:100%}
+  .presets{grid-template-columns:repeat(2,1fr)}
+  .preset svg{max-height:118px}
+  .ptab{font-size:11.5px;padding:10px 2px}
+  .pbody{padding:13px 12px 20px}
+  .row{grid-template-columns:1fr}
+  .row3{grid-template-columns:1fr 1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true">✉</div>
+    <div class="brand-text">
+      <h1>셀프 청첩장 메이커</h1>
+      <p>디자인 · 문구 · 인쇄 가이드까지, 한 화면에서</p>
+    </div>
+  </div>
+  <div class="top-actions">
+    <select id="format" aria-label="저장 형식">
+      <option value="png">PNG (300dpi)</option>
+      <option value="jpg">JPG (고화질)</option>
+    </select>
+    <button class="btn ghost" id="saveBoth" type="button">앞·뒷면 저장</button>
+    <button class="btn primary" id="saveOne" type="button">현재 면 저장</button>
+  </div>
+</header>
+
+<main class="layout">
+  <section class="col-main">
+    <div class="stage-card">
+      <div class="stage-head">
+        <div class="side-tabs" role="tablist" aria-label="앞면 뒷면">
+          <button class="side-tab active" data-side="front" role="tab" aria-selected="true"><b>앞면</b><span class="side-sub" id="frontSub">표지</span></button>
+          <button class="side-tab" data-side="back" role="tab" aria-selected="false"><b>뒷면</b><span class="side-sub" id="backSub">안내</span></button>
+        </div>
+        <div class="stage-meta">
+          <span id="dpiInfo">—</span>
+          <span id="paperInfo"></span>
+        </div>
+      </div>
+      <div class="stage-frame" id="stageFrame">
+        <canvas id="cv" width="1240" height="1748" tabindex="0" aria-label="청첩장 미리보기. 요소를 끌어서 옮길 수 있습니다."></canvas>
+        <div class="stage-hint">끌어서 위치 조정</div>
+      </div>
+      <div class="stage-bar">
+        <label class="field-inline">규격
+          <select id="sizeSel" aria-label="규격"></select>
+        </label>
+        <label class="field-inline chk"><input type="checkbox" id="guideChk"> 안전영역</label>
+        <label class="field-inline chk" id="foldChkWrap"><input type="checkbox" id="foldChk" checked> 접지선</label>
+        <label class="field-inline chk"><input type="checkbox" id="frameChk" checked> 테두리</label>
+        <button class="btn small ghost" id="resetPos" type="button">위치 초기화</button>
+        <span class="px-info" id="sizeNote"></span>
+      </div>
+      <div class="sel-bar" id="selBar" hidden>
+        <span>선택: <b id="selName">—</b></span>
+        <span class="nudge">
+          <button type="button" data-nudge="0,-1" title="위로">↑</button>
+          <button type="button" data-nudge="0,1" title="아래로">↓</button>
+          <button type="button" data-nudge="-1,0" title="왼쪽">←</button>
+          <button type="button" data-nudge="1,0" title="오른쪽">→</button>
+        </span>
+        <button class="btn small ghost" id="resetSel" type="button">이 요소만 초기화</button>
+      </div>
+    </div>
+
+    <div class="steps" aria-label="사용 순서">
+      <div class="step"><b><i>1</i>프리셋 고르기</b><span>엽서형·미니멀·라인·캘린더·2단 접지·모바일</span></div>
+      <div class="step"><b><i>2</i>사진과 문구</b><span>이름·일시·장소·인사말·QR·달력</span></div>
+      <div class="step"><b><i>3</i>앞뒷면 저장</b><span>300dpi PNG/JPG → 인쇄 주문</span></div>
+    </div>
+  </section>
+
+  <aside class="panel">
+    <div class="ptabs" role="tablist" aria-label="편집 패널">
+      <button class="ptab active" data-pane="design" role="tab">디자인</button>
+      <button class="ptab" data-pane="text" role="tab">문구</button>
+      <button class="ptab" data-pane="media" role="tab">사진·장식</button>
+      <button class="ptab" data-pane="print" role="tab">인쇄</button>
+    </div>
+    <div class="pbody">
+
+      <!-- 디자인 -->
+      <section class="pane active" data-pane="design">
+        <div class="sec">
+          <div class="sec-head"><h2>레이아웃 프리셋</h2><span>6종</span></div>
+          <div class="presets" id="presetGrid"></div>
+          <p class="hint">프리셋을 바꾸면 팔레트와 글꼴도 함께 바뀝니다. 문구·사진은 그대로 유지돼요.</p>
+        </div>
+        <div class="sec">
+          <div class="sec-head"><h2>팔레트</h2><span id="paletteName"></span></div>
+          <div class="swatches" id="swatches"></div>
+        </div>
+        <div class="sec">
+          <div class="sec-head"><h2>서체</h2><span>제목·본문 공통</span></div>
+          <div class="field">
+            <select id="fontSel" aria-label="글꼴"></select>
+          </div>
+          <div class="range">
+            <div class="rlabel"><span>글자 크기</span><output id="scaleOut">100%</output></div>
+            <input type="range" id="scaleRange" min="0.85" max="1.3" step="0.01" value="1">
+          </div>
+          <div class="range">
+            <div class="rlabel"><span>자간</span><output id="trackOut">0</output></div>
+            <input type="range" id="trackRange" min="-2" max="8" step="0.5" value="0">
+          </div>
+          <div class="range">
+            <div class="rlabel"><span>행간</span><output id="lhOut">1.85</output></div>
+            <input type="range" id="lhRange" min="1.4" max="2.4" step="0.05" value="1.85">
+          </div>
+        </div>
+        <div class="sec">
+          <div class="sec-head"><h2>분위기</h2><span>가볍게 조절</span></div>
+          <div class="chips">
+            <button class="chip toggle on" data-style-toggle="frame" type="button">가는 테두리</button>
+            <button class="chip toggle" data-style-toggle="texture" type="button">종이 질감</button>
+          </div>
+          <p class="hint">테두리 선은 재단 오차에 약하니, 인쇄소에 맡길 때는 안쪽으로 3mm 이상 띄워 주세요.</p>
+        </div>
+      </section>
+
+      <!-- 문구 -->
+      <section class="pane" data-pane="text">
+        <div class="sec">
+          <div class="sec-head"><h2>인사말 프리셋</h2><span>어른용 · 친구용 · 계절</span></div>
+          <div class="chips" id="greetChips"></div>
+          <div class="field">
+            <textarea id="greeting" rows="6" spellcheck="false"></textarea>
+          </div>
+          <p class="hint"><b>{groom}</b>·<b>{bride}</b>는 신랑·신부 이름으로 자동 바뀝니다. 줄바꿈도 그대로 반영돼요.</p>
+        </div>
+        <div class="sec">
+          <div class="sec-head"><h2>이름 · 혼주</h2></div>
+          <div class="row">
+            <div class="field"><label for="fGroom">신랑</label><input type="text" id="fGroom" autocomplete="off"></div>
+            <div class="field"><label for="fBride">신부</label><input type="text" id="fBride" autocomplete="off"></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="fGroomP">신랑 혼주</label><input type="text" id="fGroomP" autocomplete="off"></div>
+            <div class="field"><label for="fBrideP">신부 혼주</label><input type="text" id="fBrideP" autocomplete="off"></div>
+          </div>
+        </div>
+        <div class="sec">
+          <div class="sec-head"><h2>예식 정보</h2></div>
+          <div class="row">
+            <div class="field"><label for="fDate">예식일</label><input type="date" id="fDate"></div>
+            <div class="field"><label for="fTime">예식 시간</label><input type="text" id="fTime" autocomplete="off"></div>
+          </div>
+          <div class="field"><label for="fVenue">예식장</label><input type="text" id="fVenue" autocomplete="off"></div>
+          <div class="field"><label for="fAddr">주소</label><input type="text" id="fAddr" autocomplete="off"></div>
+          <div class="field"><label for="fTransport">오시는 길</label><textarea id="fTransport" rows="2"></textarea></div>
+          <div class="field"><label for="fMeal">식사 안내</label><input type="text" id="fMeal" autocomplete="off"></div>
+          <div class="field"><label for="fAccount">마음 전하실 곳</label><textarea id="fAccount" rows="2"></textarea></div>
+        </div>
+        <div class="sec">
+          <div class="sec-head"><h2>안내 항목</h2><span>뒷면에 표시</span></div>
+          <div class="chips">
+            <button class="chip toggle on" data-show="transport" type="button">오시는 길</button>
+            <button class="chip toggle on" data-show="meal" type="button">식사</button>
+            <button class="chip toggle on" data-show="account" type="button">계좌</button>
+            <button class="chip toggle on" data-show="qr" type="button">QR</button>
+            <button class="chip toggle on" data-show="calendar" type="button">미니 달력</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 사진·장식 -->
+      <section class="pane" data-pane="media">
+        <div class="sec">
+          <div class="sec-head"><h2>커플 사진</h2><span>300dpi 권장</span></div>
+          <div class="drop" id="drop">
+            <div class="thumb" id="photoThumb"></div>
+            <div class="dtext"><b>사진 올리기</b><span>JPG·PNG · 끌어다 놓아도 됩니다</span></div>
+          </div>
+          <input type="file" id="fileInput" accept="image/*" hidden>
+          <div class="chips" id="filterChips"></div>
+          <div class="range">
+            <div class="rlabel"><span>확대</span><output id="zoomOut">100%</output></div>
+            <input type="range" id="zoomRange" min="1" max="2.5" step="0.01" value="1">
+          </div>
+          <div class="row3">
+            <button class="btn small ghost" id="resetPhoto" type="button">사진 위치</button>
+            <button class="btn small ghost" id="removePhoto" type="button">사진 빼기</button>
+            <button class="btn small ghost" id="samplePhoto" type="button">샘플 이미지</button>
+          </div>
+          <p class="hint">사진을 직접 끌면 위치가 움직이고, 확대 슬라이더로 크롭을 맞춥니다.</p>
+        </div>
+        <div class="sec">
+          <div class="sec-head"><h2>라인 일러스트</h2><span>오버레이</span></div>
+          <div class="chips">
+            <button class="chip toggle" data-illo="flower" type="button">꽃</button>
+            <button class="chip toggle" data-illo="ribbon" type="button">리본</button>
+            <button class="chip toggle" data-illo="heart" type="button">하트</button>
+            <button class="chip toggle" data-illo="ring" type="button">링</button>
+          </div>
+          <div class="range">
+            <div class="rlabel"><span>크기</span><output id="illoOut">100%</output></div>
+            <input type="range" id="illoRange" min="0.6" max="1.8" step="0.01" value="1">
+          </div>
+          <p class="hint">켠 일러스트는 캔버스에서 끌어 위치를 옮길 수 있어요.</p>
+        </div>
+        <div class="sec">
+          <div class="sec-head"><h2>QR 코드</h2><span>모바일 청첩장·지도</span></div>
+          <div class="field"><label for="qrLink">링크</label><input type="text" id="qrLink" maxlength="200" autocomplete="off" placeholder="https://"></div>
+          <div class="row">
+            <div class="field"><label for="qrLabel">QR 설명</label>
+              <select id="qrLabel">
+                <option value="모바일 청첩장">모바일 청첩장</option>
+                <option value="오시는 길">오시는 길</option>
+                <option value="마음 전하실 곳">마음 전하실 곳</option>
+              </select>
+            </div>
+            <div class="range">
+              <div class="rlabel"><span>QR 크기</span><output id="qrOut">100%</output></div>
+              <input type="range" id="qrRange" min="0.7" max="1.6" step="0.01" value="1">
+            </div>
+          </div>
+          <p class="hint">QR 옆에 <b>‘모바일 청첩장’</b> 같은 짧은 설명을 함께 넣으면 어른들도 알아보기 쉬워요.</p>
+        </div>
+      </section>
+
+      <!-- 인쇄 -->
+      <section class="pane" data-pane="print">
+        <div class="sec">
+          <div class="sec-head"><h2>출력 규격</h2><span>300dpi</span></div>
+          <div class="card">
+            <dl class="spec" id="specList"></dl>
+          </div>
+          <p class="hint">저장한 파일은 재단 사이즈 기준입니다. 인쇄소에 주문할 때 ‘사이즈 직접입력’에 아래 숫자를 그대로 넣으세요. 도련(2mm)을 요청하는 곳이면 ‘배경을 사방 2mm 더’ 요청하거나 안내에 따라 주문하세요.</p>
+        </div>
+        <div class="sec">
+          <div class="sec-head"><h2>용지 비교</h2><span>후기에서 가장 많이 고르는 5종</span></div>
+          <div class="stack" id="paperCards"></div>
+        </div>
+        <div class="sec">
+          <div class="sec-head"><h2>봉투 · 식권 · 스티커</h2></div>
+          <ul class="tips">
+            <li>봉투는 청첩장보다 가로세로 <b>5mm 크게</b> (예: 110×160 카드 → 115×165 봉투).</li>
+            <li>요즘 인기 조합은 <b>트레싱지 봉투 + 실링왁스 스티커 + 오간자 리본</b>. 300장이 넘으면 리본 묶기보다 스티커가 현실적이에요.</li>
+            <li>스티커·리본은 봉투와 <b>같은 곳에서 함께 주문</b>하면 배송비를 아낄 수 있어요.</li>
+            <li>식권은 업체 제작이면 무료로 주는 경우가 많고, 셀프 제작이면 따로 주문해 봉투에 동봉합니다.</li>
+            <li>2단·3단 접지는 <b>오시(접는선)</b> 후가공이 필수. 직접 접을 거라면 오시만 넣고 접지 생략이 가능해요.</li>
+            <li>본격 주문 전에 <b>10매 샘플 인쇄</b>로 색감·글자 크기를 꼭 확인하세요.</li>
+          </ul>
+        </div>
+        <div class="sec">
+          <div class="sec-head"><h2>수량 계산</h2><span>세대·부부 단위</span></div>
+          <div class="calc">
+            <div class="field"><label for="guests">하객 수 (양가 합계)</label><input type="number" id="guests" min="0" step="10" value="200"></div>
+            <div class="badge rose" id="qtyBadge">계산</div>
+          </div>
+          <div class="calc-out" id="qtyOut"></div>
+          <p class="hint">청첩장은 한 사람당 한 장이 아니라 <b>세대·부부 단위</b>로 전달합니다. 하객의 65% + 여유 20매로 계산했어요.</p>
+        </div>
+        <div class="sec">
+          <div class="sec-head"><h2>인쇄 전 체크리스트</h2><span id="checkCount">0 / 14</span></div>
+          <div class="progress"><i id="checkBar"></i></div>
+          <div class="checklist" id="checklist"></div>
+        </div>
+      </section>
+
+    </div>
+  </aside>
+</main>
+
+<footer>
+  <span>이름·날짜·계좌는 모두 예시입니다. 입력한 내용은 브라우저 안에서만 쓰이고 어디로도 전송되지 않아요.</span>
+  <span>글꼴: Google Fonts · 저장: 300dpi PNG/JPG</span>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+'use strict';
+/* =========================================================
+   셀프 청첩장 메이커
+   - 단일 HTML, 서버·로그인 없음
+   - 캔버스 1장을 300dpi 픽셀로 그리고 그대로 저장
+   ========================================================= */
+const $ = (s, r) => (r || document).querySelector(s);
+const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+
+/* ---------- 상수 ---------- */
+const SIZES = {
+  a6:    { label: '엽서 A6', mm: [105, 148], note: '105 × 148 mm' },
+  b7:    { label: '5 × 7', mm: [127, 178], note: '127 × 178 mm' },
+  sq:    { label: '정사각', mm: [150, 150], note: '150 × 150 mm' },
+  story: { label: '모바일 9:16', px: [1080, 1920], note: '1080 × 1920 px' }
+};
+const DPI = 300;
+
+const PALETTES = {
+  cream: { name: '크림',   bg: '#fbf6ec', bg2: '#f1e6d3', ink: '#2b2620', sub: '#7c7064', accent: '#b5896a', light: '#efe3cf', line: 'rgba(43,38,32,.22)', qrInk: '#1f1c18' },
+  paper: { name: '화이트', bg: '#ffffff', bg2: '#f2f2ef', ink: '#1f1e1c', sub: '#7d7b76', accent: '#9c9a93', light: '#f4f3ef', line: 'rgba(31,30,28,.16)', qrInk: '#1a1a1a' },
+  sage:  { name: '세이지', bg: '#f1f2ea', bg2: '#e2e7d7', ink: '#2e352c', sub: '#6e7a68', accent: '#7c8a6b', light: '#e4e8d8', line: 'rgba(46,53,44,.20)', qrInk: '#232a21' },
+  blush: { name: '블러시', bg: '#faeeea', bg2: '#f3ddd5', ink: '#3a2a28', sub: '#8a6f69', accent: '#c08479', light: '#f5e0d8', line: 'rgba(58,42,40,.18)', qrInk: '#332523' },
+  blue:  { name: '미스트', bg: '#eef2f6', bg2: '#dde6ee', ink: '#26313b', sub: '#6d7c8a', accent: '#7f94a6', light: '#e1eaf1', line: 'rgba(38,49,59,.18)', qrInk: '#202a33' },
+  ink:   { name: '잉크',   bg: '#1e1d1a', bg2: '#2a2823', ink: '#f4ede1', sub: '#b7ac9b', accent: '#c9a87c', light: '#2c2a25', line: 'rgba(244,237,225,.24)', qrInk: '#161513' }
+};
+
+const FONTS = {
+  myeongjo: { label: '나눔명조 (기본 세리프)', css: '"Nanum Myeongjo", "Noto Serif KR", serif' },
+  batang:   { label: '고운바탕 (부드러운 명조)', css: '"Gowun Batang", "Nanum Myeongjo", serif' },
+  dodum:    { label: '고운돋움 (산세리프 본문)', css: '"Gowun Dodum", "Noto Sans KR", sans-serif' },
+  sans:     { label: '노토 산스 (깔끔한 고딕)', css: '"Noto Sans KR", system-ui, sans-serif' },
+  pen:      { label: '나눔손글씨 (손글씨)', css: '"Nanum Pen Script", "Gowun Dodum", cursive' }
+};
+const LATIN = '"Cormorant Garamond", "Playfair Display", serif';
+const SCRIPT = '"Parisienne", "Nanum Pen Script", cursive';
+const CAPS = '"Cormorant Garamond", "Playfair Display", serif';
+
+const PRESETS = [
+  { id: 'classic',  name: '클래식 엽서형', desc: '사진 표지 + 안내면', palette: 'cream', font: 'myeongjo', ratio: 1.42 },
+  { id: 'minimal',  name: '미니멀 타이포', desc: '여백과 글자 중심',   palette: 'paper', font: 'batang',  ratio: 1.42 },
+  { id: 'lineart',  name: '라인 드로잉',   desc: '꽃·아치 선 그림',    palette: 'sage',  font: 'batang',  ratio: 1.42 },
+  { id: 'calendar', name: '포토 캘린더',   desc: '예식일 하트 달력',   palette: 'blush', font: 'dodum',   ratio: 1.42 },
+  { id: 'fold',     name: '2단 접지·내지', desc: '펼친 면 양면 인쇄',  palette: 'cream', font: 'myeongjo', ratio: 0.705 },
+  { id: 'story',    name: '모바일 9:16',   desc: '카톡·인스타 초대',   palette: 'ink',   font: 'batang',  ratio: 1.78 }
+];
+
+const GREETINGS = {
+  formal: '{groom} 군과 {bride} 양이\n서로의 손을 잡고 한 가정을 이루고자 합니다.\n부디 오셔서 두 사람의 첫걸음을\n따뜻한 마음으로 축복해 주시기 바랍니다.',
+  casual: '우리, 결혼해요.\n거창한 인사보다 편한 얼굴로 와 주세요.\n맛있는 것 많이 준비해 둘게요.',
+  spring: '꽃이 피는 계절에\n저희 두 사람이 새로운 계절을 시작합니다.\n따스한 봄날, 함께 축복해 주세요.',
+  summer: '푸른 여름날,\n저희 두 사람이 한 가족이 됩니다.\n시원한 웃음으로 함께해 주세요.',
+  autumn: '가을 볕이 좋은 날,\n저희 두 사람이 서로의 계절이 됩니다.\n풍성한 마음으로 축복해 주세요.',
+  winter: '눈 내리는 겨울,\n저희 두 사람이 따뜻한 집을 짓습니다.\n포근한 마음으로 함께해 주세요.'
+};
+const GREET_LABELS = { formal: '어른·혼주용', casual: '친구·지인용', spring: '봄', summer: '여름', autumn: '가을', winter: '겨울' };
+
+const FILTERS = [
+  { id: 'none', label: '원본' },
+  { id: 'warm', label: '따뜻하게' },
+  { id: 'cool', label: '차분하게' },
+  { id: 'film', label: '필름' },
+  { id: 'fade', label: '페이드' },
+  { id: 'bw', label: '흑백' }
+];
+
+const PAPERS = [
+  { name: '랑데뷰 240g', badge: '가장 무난', text: '무광에 살짝 아이보리 톤. 사진이 선명하고 가격도 무난해요. 2단 접지는 240g이 접힌 상태를 잘 유지합니다.', meta: '1단·2단 모두 · 장당 저렴' },
+  { name: '랑데뷰 310g', badge: '', text: '두께감이 확실해 1단 엽서형에 잘 어울려요. 접지형에는 너무 두꺼워 자꾸 펴지려는 느낌이 있습니다.', meta: '1단 엽서 추천' },
+  { name: '아르떼 울트라화이트 310g', badge: '인물사진', text: '깔끔한 백색 무광. 흰 여백이 많은 디자인과 인물사진에 잘 맞아요. 모서리를 둥글게 깎는 귀도리(6mm)와 함께 많이 씁니다.', meta: '엽서형 · 귀도리 인기' },
+  { name: '스노우지 300g', badge: '', text: '부드러운 백색지. 무광 코팅을 입히면 스크래치에 강하고 내구성이 좋아집니다.', meta: '무광코팅 조합' },
+  { name: '띤또레또 250g', badge: '감성', text: '엠보 질감이 살아 있는 감성지. 유색 디자인은 색이 더 진하게 나오고, 사진은 랑데뷰보다 살짝 덜 선명해요.', meta: '유색·감성 디자인' },
+  { name: '트레싱지', badge: '봉투', text: '반투명 봉투·내지용. 240g 이상을 고르고, 얇으면 접힘 자국이 남으니 샘플로 확인하세요.', meta: '봉투 · 내지' }
+];
+
+const CHECKS = [
+  '신랑·신부·혼주 성함 표기(한자·영문 포함) 확인',
+  '예식 일시와 요일이 맞는지 확인',
+  '예식장 이름·층·홀명 확인',
+  '주소·교통·주차 안내 확인',
+  '계좌번호와 예금주 확인',
+  '모바일 청첩장 QR을 폰으로 직접 스캔',
+  '글자가 3mm 안전영역 안에 들어왔는지',
+  '사진 해상도 300dpi 이상인지',
+  '소리 내어 읽으며 오탈자 확인',
+  '수량(양가·직장·여유분) 계산',
+  '봉투·스티커·식권 수량 확인',
+  '10매 샘플 인쇄로 색감 확인',
+  '2단·3단이면 오시(접는선) 후가공 선택',
+  '외부 인쇄 시 CMYK 변환·텍스트 래스터화'
+];
+
+/* ---------- 상태 ---------- */
+const state = {
+  preset: 'classic',
+  side: 'front',
+  size: 'a6',
+  palette: 'cream',
+  font: 'myeongjo',
+  fields: {
+    groom: '김신랑',
+    bride: '이신부',
+    groomParents: '김OO · 박OO의 아들',
+    brideParents: '이OO · 최OO의 딸',
+    date: '',
+    time: '오후 12시',
+    venue: 'OO웨딩홀 3층 그랜드홀',
+    addr: '서울 OO구 OO로 00',
+    transport: '지하철 OO역 3번 출구 도보 5분\n주차 2시간 무료',
+    meal: '예식 후 같은 층 연회장에서 식사를 준비했습니다',
+    account: '신랑 OO은행 000-0000-0000\n신부 OO은행 000-0000-0000',
+    greeting: GREETINGS.formal,
+    qrLink: 'https://example.com/invitation'
+  },
+  qrLabel: '모바일 청첩장',
+  show: { transport: true, meal: true, account: true, qr: true, calendar: true },
+  photo: { img: null, dataUrl: '', zoom: 1, px: 0, py: 0, filter: 'none' },
+  illos: { flower: false, ribbon: false, heart: false, ring: false },
+  illoScale: 1,
+  qrScale: 1,
+  type: { scale: 1, tracking: 0, lh: 1.85 },
+  frame: true,
+  texture: false,
+  guides: false,
+  foldLine: true,
+  pos: {},
+  selected: null,
+  paper: '랑데뷰 240g'
+};
+
+let CW = 1240, CH = 1748;
+const cv = $('#cv');
+const ctx = cv.getContext('2d');
+let scene = [];
+let drag = null;
+let fontsReady = false;
+
+/* ---------- 유틸 ---------- */
+function clamp(n, a, b) { return Math.max(a, Math.min(b, n)); }
+function roundRect(c, x, y, w, h, r) {
+  const rr = Math.min(r, w / 2, h / 2);
+  c.beginPath();
+  c.moveTo(x + rr, y);
+  c.arcTo(x + w, y, x + w, y + h, rr);
+  c.arcTo(x + w, y + h, x, y + h, rr);
+  c.arcTo(x, y + h, x, y, rr);
+  c.arcTo(x, y, x + w, y, rr);
+  c.closePath();
+}
+function hexA(hex, a) {
+  const h = hex.replace('#', '');
+  const n = parseInt(h.length === 3 ? h.split('').map(c => c + c).join('') : h, 16);
+  return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
+}
+function toast(msg) {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+/* ---------- 날짜 ---------- */
+function parseWedding() {
+  const v = state.fields.date;
+  if (!v) return null;
+  const [y, m, d] = v.split('-').map(Number);
+  if (!y || !m || !d) return null;
+  const dt = new Date(y, m - 1, d);
+  if (isNaN(dt.getTime())) return null;
+  return dt;
+}
+const WD = ['일', '월', '화', '수', '목', '금', '토'];
+function dateInfo() {
+  const dt = parseWedding();
+  if (!dt) return { main: '2026. 00. 00', wd: '', full: '2026. 00. 00', dt: null, y: 2026, m: 11, day: null };
+  const y = dt.getFullYear(), m = dt.getMonth() + 1, d = dt.getDate();
+  const main = `${y}. ${String(m).padStart(2, '0')}. ${String(d).padStart(2, '0')}`;
+  return { main, wd: `(${WD[dt.getDay()]})`, full: `${main} ${WD[dt.getDay()]}요일`, dt, y, m: dt.getMonth(), day: d };
+}
+function greetingText() {
+  return state.fields.greeting
+    .replace(/\{groom\}/g, state.fields.groom || '신랑')
+    .replace(/\{bride\}/g, state.fields.bride || '신부');
+}
+
+/* ---------- 텍스트 ---------- */
+function setFont(c, size, css, weight, italic) {
+  c.font = `${italic ? 'italic ' : ''}${weight || 400} ${size}px ${css}`;
+}
+function measureStr(c, s, tr) {
+  if (!tr) return c.measureText(s).width;
+  let w = 0;
+  for (const ch of s) w += c.measureText(ch).width + tr;
+  return Math.max(0, w - tr);
+}
+function drawStr(c, s, x, y, tr) {
+  c.textAlign = 'left';
+  if (!tr) { c.fillText(s, x, y); return; }
+  let cx = x;
+  for (const ch of s) { c.fillText(ch, cx, y); cx += c.measureText(ch).width + tr; }
+}
+function wrapLines(c, str, maxW, tr) {
+  const out = [];
+  const paras = String(str).split('\n');
+  for (const p of paras) {
+    if (!p) { out.push(''); continue; }
+    const words = p.split(' ');
+    let line = '';
+    for (let w of words) {
+      const cand = line ? line + ' ' + w : w;
+      if (measureStr(c, cand, tr) <= maxW) { line = cand; continue; }
+      if (line) { out.push(line); line = ''; }
+      if (measureStr(c, w, tr) > maxW) {
+        let cur = '';
+        for (const ch of w) {
+          if (cur && measureStr(c, cur + ch, tr) > maxW) { out.push(cur); cur = ch; }
+          else cur += ch;
+        }
+        line = cur;
+      } else line = w;
+    }
+    out.push(line);
+  }
+  return out;
+}
+function textBlock(c, str, o) {
+  const size = o.size, lh = o.lh || 1.7, tr = o.tracking || 0;
+  setFont(c, size, o.font, o.weight || 400, o.italic);
+  c.fillStyle = o.color;
+  c.textBaseline = 'top';
+  const lines = wrapLines(c, str, o.w, tr);
+  const lineH = size * lh;
+  lines.forEach((ln, i) => {
+    const w = measureStr(c, ln, tr);
+    let x = o.x;
+    if (o.align === 'center') x = o.x + (o.w - w) / 2;
+    else if (o.align === 'right') x = o.x + o.w - w;
+    drawStr(c, ln, x, o.y + i * lineH + (lineH - size) * 0.18, tr);
+  });
+  return { x: o.x, y: o.y, w: o.w, h: Math.max(lineH, lines.length * lineH) };
+}
+
+/* ---------- QR (byte mode, EC level M, v1–10) ---------- */
+const QR = (() => {
+  const EXP = new Array(512), LOG = new Array(256);
+  (() => { let x = 1; for (let i = 0; i < 255; i++) { EXP[i] = x; LOG[x] = i; x <<= 1; if (x & 0x100) x ^= 0x11d; } for (let i = 255; i < 512; i++) EXP[i] = EXP[i - 255]; })();
+  const mul = (a, b) => (a === 0 || b === 0) ? 0 : EXP[LOG[a] + LOG[b]];
+  const EC = {
+    1: [10, [[1, 16]]], 2: [16, [[1, 28]]], 3: [26, [[1, 44]]], 4: [18, [[2, 32]]],
+    5: [24, [[2, 43]]], 6: [16, [[4, 27]]], 7: [18, [[4, 31]]],
+    8: [22, [[2, 38], [2, 39]]], 9: [22, [[3, 36], [2, 37]]], 10: [26, [[4, 43], [1, 44]]]
+  };
+  const ALIGN = { 1: [], 2: [6, 18], 3: [6, 22], 4: [6, 26], 5: [6, 30], 6: [6, 34], 7: [6, 22, 38], 8: [6, 24, 42], 9: [6, 26, 46], 10: [6, 28, 50] };
+
+  function polyMul(a, b) {
+    const r = new Array(a.length + b.length - 1).fill(0);
+    for (let i = 0; i < a.length; i++) for (let j = 0; j < b.length; j++) r[i + j] ^= mul(a[i], b[j]);
+    return r;
+  }
+  function genPoly(n) { let g = [1]; for (let i = 0; i < n; i++) g = polyMul(g, [1, EXP[i]]); return g; }
+  function ecBytes(data, n) {
+    const g = genPoly(n);
+    const res = data.concat(new Array(n).fill(0));
+    for (let i = 0; i < data.length; i++) {
+      const f = res[i];
+      if (!f) continue;
+      for (let j = 1; j <= n; j++) res[i + j] ^= mul(g[j], f);
+    }
+    return res.slice(data.length);
+  }
+  function bch15(data) {
+    let d = data << 10;
+    for (let i = 14; i >= 10; i--) if ((d >> i) & 1) d ^= 0x537 << (i - 10);
+    return ((data << 10) | (d & 0x3ff)) ^ 0x5412;
+  }
+  function versionBits(v) {
+    let d = v << 12;
+    for (let i = 17; i >= 12; i--) if ((d >> i) & 1) d ^= 0x1f25 << (i - 12);
+    return (v << 12) | (d & 0xfff);
+  }
+  const MASKS = [
+    (r, c) => (r + c) % 2 === 0,
+    (r) => r % 2 === 0,
+    (r, c) => c % 3 === 0,
+    (r, c) => (r + c) % 3 === 0,
+    (r, c) => (Math.floor(r / 2) + Math.floor(c / 3)) % 2 === 0,
+    (r, c) => ((r * c) % 2) + ((r * c) % 3) === 0,
+    (r, c) => (((r * c) % 2) + ((r * c) % 3)) % 2 === 0,
+    (r, c) => (((r + c) % 2) + ((r * c) % 3)) % 2 === 0
+  ];
+
+  function encode(text) {
+    let bytes = Array.from(new TextEncoder().encode(text));
+    if (bytes.length > 200) bytes = bytes.slice(0, 200);
+    let version = 0;
+    for (let v = 1; v <= 10; v++) {
+      const dataCw = EC[v][1].reduce((s, b) => s + b[0] * b[1], 0);
+      const cnt = v < 10 ? 8 : 16;
+      if (4 + cnt + bytes.length * 8 <= dataCw * 8) { version = v; break; }
+    }
+    if (!version) version = 10;
+    const [ecLen, blocks] = EC[version];
+    const dataCw = blocks.reduce((s, b) => s + b[0] * b[1], 0);
+    const cap = dataCw * 8;
+    const bits = [];
+    const push = (val, len) => { for (let i = len - 1; i >= 0; i--) bits.push((val >> i) & 1); };
+    push(4, 4);
+    push(bytes.length, version < 10 ? 8 : 16);
+    for (const b of bytes) push(b, 8);
+    for (let i = 0; i < 4 && bits.length < cap; i++) bits.push(0);
+    while (bits.length % 8) bits.push(0);
+    let pi = 0;
+    while (bits.length < cap) push(pi++ % 2 ? 0x11 : 0xEC, 8);
+    const cw = [];
+    for (let i = 0; i < bits.length; i += 8) {
+      let b = 0;
+      for (let j = 0; j < 8; j++) b = (b << 1) | bits[i + j];
+      cw.push(b);
+    }
+    const dataBlocks = [];
+    let idx = 0;
+    for (const [count, len] of blocks) for (let b = 0; b < count; b++) { dataBlocks.push(cw.slice(idx, idx + len)); idx += len; }
+    const ecBlocks = dataBlocks.map(d => ecBytes(d, ecLen));
+    const out = [];
+    const maxLen = Math.max(...dataBlocks.map(b => b.length));
+    for (let i = 0; i < maxLen; i++) for (const b of dataBlocks) if (i < b.length) out.push(b[i]);
+    for (let i = 0; i < ecLen; i++) for (const b of ecBlocks) out.push(b[i]);
+    return { version, codewords: out };
+  }
+
+  function penalty(m) {
+    const n = m.length;
+    let score = 0;
+    const runScore = (arr) => {
+      let s = 0, run = 1;
+      for (let i = 1; i < arr.length; i++) {
+        if (arr[i] === arr[i - 1]) run++;
+        else { if (run >= 5) s += 3 + (run - 5); run = 1; }
+      }
+      if (run >= 5) s += 3 + (run - 5);
+      return s;
+    };
+    for (let r = 0; r < n; r++) score += runScore(m[r]);
+    for (let c = 0; c < n; c++) score += runScore(m.map(row => row[c]));
+    for (let r = 0; r < n - 1; r++) for (let c = 0; c < n - 1; c++) {
+      const v = m[r][c];
+      if (v === m[r][c + 1] && v === m[r + 1][c] && v === m[r + 1][c + 1]) score += 3;
+    }
+    const pat1 = [1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0];
+    const pat2 = [0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1];
+    const runs = (arr) => {
+      let s = 0;
+      for (let i = 0; i + 11 <= arr.length; i++) {
+        let a = true, b = true;
+        for (let j = 0; j < 11; j++) {
+          const v = arr[i + j] ? 1 : 0;
+          if (v !== pat1[j]) a = false;
+          if (v !== pat2[j]) b = false;
+        }
+        if (a) s += 40;
+        if (b) s += 40;
+      }
+      return s;
+    };
+    for (let r = 0; r < n; r++) score += runs(m[r].map(v => v ? 1 : 0));
+    for (let c = 0; c < n; c++) score += runs(m.map(row => row[c] ? 1 : 0));
+    let dark = 0;
+    for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (m[r][c]) dark++;
+    const pct = (dark * 100) / (n * n);
+    score += Math.floor(Math.abs(pct - 50) / 5) * 10;
+    return score;
+  }
+
+  function build(text) {
+    const { version, codewords } = encode(text);
+    const size = version * 4 + 17;
+    const base = Array.from({ length: size }, () => new Array(size).fill(false));
+    const fn = Array.from({ length: size }, () => new Array(size).fill(false));
+    const set = (r, c, v) => { if (r >= 0 && r < size && c >= 0 && c < size) { base[r][c] = v; fn[r][c] = true; } };
+    const finder = (r0, c0) => {
+      for (let r = -1; r <= 7; r++) for (let c = -1; c <= 7; c++) {
+        const dark = (r >= 0 && r <= 6 && (c === 0 || c === 6)) ||
+                     (c >= 0 && c <= 6 && (r === 0 || r === 6)) ||
+                     (r >= 2 && r <= 4 && c >= 2 && c <= 4);
+        set(r0 + r, c0 + c, dark);
+      }
+    };
+    finder(0, 0); finder(0, size - 7); finder(size - 7, 0);
+    for (let i = 8; i < size - 8; i++) { set(6, i, i % 2 === 0); set(i, 6, i % 2 === 0); }
+    const al = ALIGN[version];
+    for (const r of al) for (const c of al) {
+      if ((r === 6 && c === 6) || (r === 6 && c === size - 7) || (r === size - 7 && c === 6)) continue;
+      for (let dr = -2; dr <= 2; dr++) for (let dc = -2; dc <= 2; dc++) set(r + dr, c + dc, Math.max(Math.abs(dr), Math.abs(dc)) !== 1);
+    }
+    for (let i = 0; i < 9; i++) { if (!fn[8][i]) set(8, i, false); if (!fn[i][8]) set(i, 8, false); }
+    for (let i = 0; i < 8; i++) { if (!fn[8][size - 1 - i]) set(8, size - 1 - i, false); if (!fn[size - 1 - i][8]) set(size - 1 - i, 8, false); }
+    set(size - 8, 8, true);
+    if (version >= 7) {
+      const bits = versionBits(version);
+      for (let i = 0; i < 18; i++) {
+        const v = ((bits >> i) & 1) === 1;
+        set(Math.floor(i / 3), i % 3 + size - 11, v);
+        set(i % 3 + size - 11, Math.floor(i / 3), v);
+      }
+    }
+    const totalBits = codewords.length * 8;
+    const bitAt = (i) => i < totalBits ? (codewords[i >> 3] >> (7 - (i & 7))) & 1 : 0;
+    let inc = -1, row = size - 1, bitIdx = 0;
+    for (let col = size - 1; col > 0; col -= 2) {
+      if (col === 6) col--;
+      while (true) {
+        for (let k = 0; k < 2; k++) {
+          const c = col - k;
+          if (!fn[row][c]) base[row][c] = bitAt(bitIdx++) === 1;
+        }
+        row += inc;
+        if (row < 0 || row >= size) { row -= inc; inc = -inc; break; }
+      }
+    }
+    let best = null, bestScore = Infinity;
+    for (let mask = 0; mask < 8; mask++) {
+      const m = base.map(r => r.slice());
+      for (let r = 0; r < size; r++) for (let c = 0; c < size; c++) {
+        if (!fn[r][c] && MASKS[mask](r, c)) m[r][c] = !m[r][c];
+      }
+      // format info
+      const bits = bch15((0 << 3) | mask);
+      for (let i = 0; i < 15; i++) {
+        const v = ((bits >> i) & 1) === 1;
+        if (i < 6) m[i][8] = v;
+        else if (i < 8) m[i + 1][8] = v;
+        else m[size - 15 + i][8] = v;
+        if (i < 8) m[8][size - i - 1] = v;
+        else if (i < 9) m[8][15 - i] = v;
+        else m[8][14 - i] = v;
+      }
+      m[size - 8][8] = true;
+      const sc = penalty(m);
+      if (sc < bestScore) { bestScore = sc; best = m; }
+    }
+    return { size, modules: best };
+  }
+  const cache = new Map();
+  return {
+    get(text) {
+      const key = String(text);
+      if (!cache.has(key)) cache.set(key, build(key));
+      return cache.get(key);
+    }
+  };
+})();
+
+function drawQR(c, x, y, targetSize, text, th) {
+  const qr = QR.get(text || 'https://example.com');
+  const n = qr.size;
+  const q = Math.max(1, Math.floor(targetSize / (n + 8)));
+  const total = q * (n + 8);
+  c.save();
+  c.fillStyle = '#ffffff';
+  roundRect(c, x, y, total, total, total * 0.02);
+  c.fill();
+  c.fillStyle = th.qrInk || '#1b1a17';
+  for (let r = 0; r < n; r++) for (let col = 0; col < n; col++) {
+    if (qr.modules[r][col]) c.fillRect(x + q * 4 + col * q, y + q * 4 + r * q, q, q);
+  }
+  c.restore();
+  return { x, y, w: total, h: total };
+}
+
+/* ---------- 그림 ---------- */
+function heartPath(c, cx, cy, s) {
+  c.beginPath();
+  c.moveTo(cx, cy + s * 0.34);
+  c.bezierCurveTo(cx - s * 0.86, cy - s * 0.12, cx - s * 0.5, cy - s * 0.78, cx, cy - s * 0.3);
+  c.bezierCurveTo(cx + s * 0.5, cy - s * 0.78, cx + s * 0.86, cy - s * 0.12, cx, cy + s * 0.34);
+  c.closePath();
+}
+function archPath(c, x, y, w, h) {
+  const r = w / 2;
+  c.beginPath();
+  c.moveTo(x, y + h);
+  c.lineTo(x, y + r);
+  c.arc(x + r, y + r, r, Math.PI, 0);
+  c.lineTo(x + w, y + h);
+  c.closePath();
+}
+function drawIllo(c, type, box, color, lw) {
+  const { x, y, w, h } = box;
+  c.save();
+  c.strokeStyle = color;
+  c.fillStyle = color;
+  c.lineWidth = lw;
+  c.lineCap = 'round';
+  c.lineJoin = 'round';
+  if (type === 'flower') {
+    // stem with leaves + 2 blossoms
+    c.beginPath();
+    c.moveTo(x + w * 0.18, y + h * 0.92);
+    c.bezierCurveTo(x + w * 0.35, y + h * 0.62, x + w * 0.42, y + h * 0.42, x + w * 0.5, y + h * 0.18);
+    c.stroke();
+    const leaf = (px, py, s, dir) => {
+      c.beginPath();
+      c.moveTo(px, py);
+      c.quadraticCurveTo(px + s * dir, py - s * 0.55, px + s * 1.2 * dir, py - s * 0.15);
+      c.quadraticCurveTo(px + s * 0.6 * dir, py + s * 0.35, px, py);
+      c.stroke();
+    };
+    leaf(x + w * 0.28, y + h * 0.68, w * 0.16, 1);
+    leaf(x + w * 0.4, y + h * 0.5, w * 0.14, -1);
+    const blossom = (cx, cy, r) => {
+      for (let i = 0; i < 5; i++) {
+        const a = (Math.PI * 2 * i) / 5 - Math.PI / 2;
+        c.beginPath();
+        c.ellipse(cx + Math.cos(a) * r * 0.62, cy + Math.sin(a) * r * 0.62, r * 0.42, r * 0.28, a, 0, Math.PI * 2);
+        c.stroke();
+      }
+      c.beginPath();
+      c.arc(cx, cy, r * 0.14, 0, Math.PI * 2);
+      c.fill();
+    };
+    blossom(x + w * 0.5, y + h * 0.16, w * 0.2);
+    blossom(x + w * 0.74, y + h * 0.42, w * 0.13);
+  } else if (type === 'ribbon') {
+    c.beginPath();
+    c.moveTo(x + w * 0.5, y + h * 0.44);
+    c.bezierCurveTo(x + w * 0.18, y + h * 0.1, x + w * 0.02, y + h * 0.52, x + w * 0.34, y + h * 0.56);
+    c.bezierCurveTo(x + w * 0.12, y + h * 0.62, x + w * 0.2, y + h * 0.92, x + w * 0.46, y + h * 0.62);
+    c.stroke();
+    c.beginPath();
+    c.moveTo(x + w * 0.5, y + h * 0.44);
+    c.bezierCurveTo(x + w * 0.82, y + h * 0.1, x + w * 0.98, y + h * 0.52, x + w * 0.66, y + h * 0.56);
+    c.bezierCurveTo(x + w * 0.88, y + h * 0.62, x + w * 0.8, y + h * 0.92, x + w * 0.54, y + h * 0.62);
+    c.stroke();
+    c.beginPath();
+    c.arc(x + w * 0.5, y + h * 0.5, w * 0.055, 0, Math.PI * 2);
+    c.fill();
+  } else if (type === 'heart') {
+    heartPath(c, x + w * 0.5, y + h * 0.5, w * 0.8);
+    c.stroke();
+    c.beginPath();
+    c.moveTo(x + w * 0.86, y + h * 0.2);
+    c.lineTo(x + w * 0.94, y + h * 0.2);
+    c.moveTo(x + w * 0.9, y + h * 0.16);
+    c.lineTo(x + w * 0.9, y + h * 0.24);
+    c.stroke();
+  } else if (type === 'ring') {
+    const r = w * 0.26;
+    c.beginPath();
+    c.arc(x + w * 0.38, y + h * 0.58, r, 0, Math.PI * 2);
+    c.stroke();
+    c.beginPath();
+    c.arc(x + w * 0.62, y + h * 0.52, r, 0, Math.PI * 2);
+    c.stroke();
+    c.beginPath();
+    c.moveTo(x + w * 0.62, y + h * 0.52 - r - w * 0.09);
+    c.lineTo(x + w * 0.62 + w * 0.055, y + h * 0.52 - r + w * 0.02);
+    c.lineTo(x + w * 0.62, y + h * 0.52 - r + w * 0.07);
+    c.lineTo(x + w * 0.62 - w * 0.055, y + h * 0.52 - r + w * 0.02);
+    c.closePath();
+    c.stroke();
+  }
+  c.restore();
+}
+
+/* ---------- 사진 ---------- */
+const filterCache = new Map();
+function applyFilter(img, filter) {
+  if (filter === 'none' || !img) return img;
+  const key = (img.src || '') + '|' + filter;
+  if (filterCache.has(key)) return filterCache.get(key);
+  const maxW = 1400;
+  const scale = Math.min(1, maxW / img.naturalWidth);
+  const w = Math.max(1, Math.round(img.naturalWidth * scale));
+  const h = Math.max(1, Math.round(img.naturalHeight * scale));
+  const off = document.createElement('canvas');
+  off.width = w; off.height = h;
+  const c = off.getContext('2d');
+  c.drawImage(img, 0, 0, w, h);
+  const data = c.getImageData(0, 0, w, h);
+  const d = data.data;
+  for (let i = 0; i < d.length; i += 4) {
+    let r = d[i], g = d[i + 1], b = d[i + 2];
+    if (filter === 'warm') { r = r * 1.06 + 7; g = g * 1.02 + 2; b = b * 0.94; }
+    else if (filter === 'cool') { r = r * 0.95; g = g * 1.0 + 1; b = b * 1.07 + 4; }
+    else if (filter === 'bw') { const l = r * 0.299 + g * 0.587 + b * 0.114; r = g = b = l * 1.02 - 2; }
+    else if (filter === 'film') { r = (r - 128) * 1.06 + 130 + 5; g = (g - 128) * 1.03 + 129; b = (b - 128) * 0.99 + 126 - 4; }
+    else if (filter === 'fade') {
+      r = (r - 128) * 0.82 + 130 + 14; g = (g - 128) * 0.82 + 129 + 14; b = (b - 128) * 0.8 + 127 + 16;
+      const l = r * 0.299 + g * 0.587 + b * 0.114;
+      r = r * 0.8 + l * 0.2; g = g * 0.8 + l * 0.2; b = b * 0.8 + l * 0.2;
+    }
+    d[i] = clamp(r, 0, 255); d[i + 1] = clamp(g, 0, 255); d[i + 2] = clamp(b, 0, 255);
+  }
+  c.putImageData(data, 0, 0);
+  filterCache.set(key, off);
+  return off;
+}
+function drawPhoto(c, rect, th, shape) {
+  const { x, y, w, h } = rect;
+  c.save();
+  if (shape === 'arch') archPath(c, x, y, w, h);
+  else if (shape === 'circle') { c.beginPath(); c.arc(x + w / 2, y + h / 2, Math.min(w, h) / 2, 0, Math.PI * 2); }
+  else { c.beginPath(); c.rect(x, y, w, h); }
+  c.clip();
+  const img = state.photo.img;
+  if (img) {
+    const src = applyFilter(img, state.photo.filter);
+    const iw = src.naturalWidth || src.width, ih = src.naturalHeight || src.height;
+    const sc = Math.max(w / iw, h / ih) * state.photo.zoom;
+    const dw = iw * sc, dh = ih * sc;
+    const cx = x + w / 2 + state.photo.px * w;
+    const cy = y + h / 2 + state.photo.py * h;
+    c.drawImage(src, cx - dw / 2, cy - dh / 2, dw, dh);
+  } else {
+    const dark = th.bg === '#1e1d1a';
+    const g = c.createLinearGradient(x, y, x + w, y + h);
+    g.addColorStop(0, dark ? '#332f28' : th.light);
+    g.addColorStop(1, dark ? '#26241f' : hexA(th.accent, 0.22));
+    c.fillStyle = g;
+    c.fillRect(x, y, w, h);
+    c.save();
+    c.globalAlpha = 0.6;
+    drawIllo(c, 'flower', { x: x + w * 0.34, y: y + h * 0.24, w: w * 0.32, h: h * 0.38 }, dark ? 'rgba(226,207,180,.55)' : hexA(th.ink, 0.5), Math.max(1.2, w * 0.0028));
+    c.restore();
+    c.fillStyle = dark ? 'rgba(240,229,213,.85)' : hexA(th.ink, 0.62);
+    setFont(c, Math.min(w, h) * 0.042, FONTS[state.font].css, 500);
+    c.textAlign = 'center';
+    c.textBaseline = 'middle';
+    c.fillText('커플 사진', x + w / 2, y + h * 0.7);
+    setFont(c, Math.min(w, h) * 0.03, FONTS.sans.css, 400);
+    c.fillStyle = dark ? 'rgba(226,213,193,.55)' : hexA(th.ink, 0.42);
+    c.fillText('사진을 넣어 주세요', x + w / 2, y + h * 0.755);
+  }
+  c.restore();
+}
+
+/* ---------- 달력 ---------- */
+function drawCalendar(c, box, th, opts) {
+  const o = opts || {};
+  const d = dateInfo();
+  const y = d.dt ? d.y : new Date().getFullYear();
+  const m = d.dt ? d.m : new Date().getMonth();
+  const U = Math.min(CW, CH);
+  const days = new Date(y, m + 1, 0).getDate();
+  const first = new Date(y, m, 1).getDay();
+  const rows = Math.ceil((first + days) / 7);
+  const headH = box.h * 0.16;
+  c.save();
+  c.fillStyle = o.color || th.ink;
+  c.textBaseline = 'top';
+  setFont(c, box.h * 0.075, CAPS, 600);
+  c.textAlign = 'left';
+  drawStr(c, `${y}. ${String(m + 1).padStart(2, '0')}`, box.x, box.y, box.h * 0.011);
+  setFont(c, box.h * 0.036, FONTS.sans.css, 500);
+  c.fillStyle = th.sub;
+  c.textAlign = 'right';
+  c.fillText('WEDDING CALENDAR', box.x + box.w, box.y + box.h * 0.045);
+  const gridY = box.y + headH;
+  const cellW = box.w / 7;
+  const cellH = Math.min(cellW * 0.95, (box.h - headH) / (rows + 0.3));
+  c.textAlign = 'center';
+  c.textBaseline = 'middle';
+  // weekday header
+  for (let i = 0; i < 7; i++) {
+    setFont(c, cellH * 0.34, FONTS.sans.css, 600);
+    c.fillStyle = i === 0 ? hexA(th.accent, 0.95) : (i === 6 ? hexA(th.accent, 0.7) : th.sub);
+    c.fillText(WD[i], box.x + cellW * (i + 0.5), gridY + cellH * 0.25);
+  }
+  // separators
+  c.strokeStyle = hexA(th.ink, 0.1);
+  c.lineWidth = Math.max(1, U * 0.0009);
+  c.beginPath();
+  c.moveTo(box.x, gridY + cellH * 0.5);
+  c.lineTo(box.x + box.w, gridY + cellH * 0.5);
+  c.stroke();
+  let col = first, row = 0;
+  for (let day = 1; day <= days; day++) {
+    const cx = box.x + cellW * (col + 0.5);
+    const cy = gridY + cellH * (0.5 + row + 0.45);
+    const isWed = d.day === day;
+    if (isWed) {
+      const s = Math.min(cellW, cellH) * 1.02;
+      c.fillStyle = th.accent;
+      heartPath(c, cx, cy, s);
+      c.fill();
+      setFont(c, cellH * 0.4, FONTS.sans.css, 700);
+      c.fillStyle = '#fffdf8';
+      c.fillText(String(day), cx, cy + cellH * 0.02);
+    } else {
+      setFont(c, cellH * 0.46, FONTS.sans.css, col === 0 ? 600 : 400);
+      c.fillStyle = col === 0 ? hexA(th.accent, 0.9) : th.ink;
+      c.globalAlpha = 0.85;
+      c.fillText(String(day), cx, cy);
+      c.globalAlpha = 1;
+    }
+    col++;
+    if (col > 6) { col = 0; row++; }
+  }
+  c.restore();
+  return { x: box.x, y: box.y, w: box.w, h: box.h };
+}
+
+/* ---------- 배경/프레임 ---------- */
+function paperBg(c, th) {
+  c.fillStyle = th.bg;
+  c.fillRect(0, 0, CW, CH);
+  if (state.texture) {
+    const g = c.createRadialGradient(CW * 0.22, CH * 0.12, 0, CW * 0.22, CH * 0.12, Math.max(CW, CH) * 1.05);
+    g.addColorStop(0, hexA('#ffffff', 0.5));
+    g.addColorStop(0.55, hexA(th.bg2, 0.28));
+    g.addColorStop(1, hexA(th.bg2, 0.62));
+    c.fillStyle = g;
+    c.fillRect(0, 0, CW, CH);
+  }
+}
+function frameLines(c, th, inset, double) {
+  if (!state.frame) return;
+  const U = Math.min(CW, CH);
+  c.save();
+  c.strokeStyle = hexA(th.ink, 0.2);
+  c.lineWidth = Math.max(1, U * 0.0011);
+  c.strokeRect(inset, inset, CW - inset * 2, CH - inset * 2);
+  if (double) {
+    const i2 = inset + U * 0.012;
+    c.strokeStyle = hexA(th.ink, 0.1);
+    c.strokeRect(i2, i2, CW - i2 * 2, CH - i2 * 2);
+  }
+  c.restore();
+}
+
+/* ---------- 요소 ---------- */
+function posKey(id) { return `${state.preset}|${state.side}|${id}`; }
+function getPos(id) { return state.pos[posKey(id)] || { dx: 0, dy: 0 }; }
+function addEl(list, id, label, draw) {
+  const o = getPos(id);
+  list.push({
+    id, label,
+    draw(c) {
+      c.save();
+      c.translate(o.dx * CW, o.dy * CH);
+      let b = null;
+      try { b = draw(c); } finally { c.restore(); }
+      return b ? { x: b.x + o.dx * CW, y: b.y + o.dy * CH, w: b.w, h: b.h } : null;
+    }
+  });
+}
+function pickFont(primary) { return FONTS[primary || state.font].css; }
+
+/* ---------- 인사말 토큰 ---------- */
+function greetingBlock(c, box, th, opts) {
+  const o = opts || {};
+  return textBlock(c, greetingText(), {
+    x: box.x, y: box.y, w: box.w,
+    size: o.size, font: o.font || pickFont(), weight: o.weight || 400,
+    color: o.color || th.ink, align: o.align || 'center',
+    lh: o.lh || state.type.lh, tracking: state.type.tracking * (o.size / 40)
+  });
+}
+
+/* =========================================================
+   프리셋별 장면
+   ========================================================= */
+function buildScene(side) {
+  const W = CW, H = CH;
+  const U = state.size === 'story' ? Math.min(W, H) : H * 0.71;
+  const th = PALETTES[state.palette];
+  const f = state.fields;
+  const F = pickFont();
+  const S = state.type.scale;
+  const d = dateInfo();
+  const list = [];
+  const M = U * 0.085; // 기본 여백
+
+  const capSize = U * 0.0155;
+  const bodySize = U * 0.0325 * S;
+  const smallSize = U * 0.0262 * S;
+  const labelSize = U * 0.0205 * S;
+
+  const cap = (c, str, x, y, w, color, size) => textBlock(c, str, {
+    x, y, w, size: size || capSize, font: CAPS, weight: 600, color: color || th.accent,
+    align: 'center', tracking: (size || capSize) * 0.42, lh: 1.4
+  });
+
+  const infoRows = () => {
+    const rows = [];
+    rows.push({ label: 'DATE', value: `${d.main} ${d.wd} ${f.time}`.replace(/\s+/g, ' ').trim() });
+    rows.push({ label: 'PLACE', value: `${f.venue}${f.addr ? '\n' + f.addr : ''}` });
+    if (state.show.transport && f.transport) rows.push({ label: 'DIRECTIONS', value: f.transport });
+    if (state.show.meal && f.meal) rows.push({ label: 'MEAL', value: f.meal });
+    if (state.show.account && f.account) rows.push({ label: 'GIFT', value: f.account });
+    return rows;
+  };
+
+  const drawInfo = (c, box, opt) => {
+    const o = opt || {};
+    const rows = infoRows().filter(r => !(o.skip || []).includes(r.label));
+    let y = box.y;
+    const labSize = o.labelSize || labelSize;
+    const valSize = o.valueSize || bodySize;
+    const rowGap = U * (o.rowGap || 0.022);
+    const align = o.align || 'left';
+    rows.forEach((row) => {
+      textBlock(c, row.label, {
+        x: box.x, y, w: box.w, size: labSize, font: CAPS, weight: 600, color: hexA(th.accent, 0.95),
+        align, tracking: labSize * 0.3, lh: 1.4
+      });
+      y += labSize * 1.7;
+      const b = textBlock(c, row.value, {
+        x: box.x, y, w: box.w, size: valSize, font: o.font || F, weight: 400,
+        color: o.color || th.ink, align: align, lh: o.lh || 1.6, tracking: 0
+      });
+      y = b.y + b.h + rowGap;
+    });
+    return { x: box.x, y: box.y, w: box.w, h: y - box.y - rowGap };
+  };
+
+  const qrBlock = (c, box) => {
+    if (!state.show.qr) return null;
+    const label = state.qrLabel || '모바일 청첩장';
+    const margin = U * 0.025;
+    let size = Math.min(box.w, U * 0.2) * state.qrScale;
+    size = Math.min(size, CW - box.x - margin, CH - box.y - margin - U * 0.045);
+    if (size < U * 0.04) return null;
+    const q = drawQR(c, box.x, box.y, size, f.qrLink || 'https://example.com', th);
+    setFont(c, U * 0.0165, FONTS.sans.css, 500);
+    const tw = measureStr(c, label, U * 0.0015);
+    const lw = Math.max(q.w, tw) + U * 0.02;
+    textBlock(c, label, {
+      x: q.x + q.w / 2 - lw / 2, y: q.y + q.h + U * 0.008, w: lw,
+      size: U * 0.0165, font: FONTS.sans.css, weight: 500, color: th.sub, align: 'center', tracking: U * 0.0015, lh: 1.4
+    });
+    return { x: q.x, y: q.y, w: q.w, h: q.h + U * 0.042 };
+  };
+
+  const overlays = (c) => {
+    const defs = state.side === 'front' ? {
+      flower: { x: 0.04, y: 0.055, w: 0.2 },
+      ribbon: { x: 0.78, y: 0.055, w: 0.18 },
+      heart: { x: 0.06, y: 0.43, w: 0.11 },
+      ring: { x: 0.77, y: 0.44, w: 0.15 }
+    } : {
+      flower: { x: 0.04, y: 0.05, w: 0.15 },
+      ribbon: { x: 0.81, y: 0.05, w: 0.13 },
+      heart: { x: 0.035, y: 0.46, w: 0.09 },
+      ring: { x: 0.82, y: 0.46, w: 0.11 }
+    };
+    Object.keys(state.illos).forEach((k) => {
+      if (!state.illos[k]) return;
+      const p = defs[k];
+      const w = W * p.w * state.illoScale;
+      drawIllo(c, k, { x: W * p.x, y: H * p.y, w, h: w }, hexA(th.accent, 0.85), Math.max(1, U * 0.0016));
+    });
+  };
+
+  if (state.preset === 'classic') {
+    if (side === 'front') {
+      const photoH = H * 0.68;
+      addEl(list, 'photo', '커플 사진', (c) => { drawPhoto(c, { x: 0, y: 0, w: W, h: photoH }, th, 'rect'); return { x: 0, y: 0, w: W, h: photoH }; });
+      addEl(list, 'title', '표지 문구', (c) => {
+        const b1 = textBlock(c, 'WEDDING INVITATION', {
+          x: W * 0.1, y: H * 0.757, w: W * 0.8, size: U * 0.0145, font: CAPS, weight: 600,
+          color: th.accent, align: 'center', tracking: U * 0.0085, lh: 1.4
+        });
+        const b2 = textBlock(c, `${f.groom}  ·  ${f.bride}`, {
+          x: W * 0.06, y: H * 0.787, w: W * 0.88, size: U * 0.056 * S, font: F, weight: 400,
+          color: th.ink, align: 'center', tracking: U * 0.002, lh: 1.25
+        });
+        const b3 = textBlock(c, `${d.main} ${d.wd}`, {
+          x: W * 0.1, y: b2.y + b2.h + U * 0.018, w: W * 0.8, size: U * 0.026 * S, font: LATIN, weight: 500,
+          color: th.sub, align: 'center', tracking: U * 0.004, lh: 1.4
+        });
+        const b4 = textBlock(c, f.venue, {
+          x: W * 0.08, y: b3.y + b3.h + U * 0.01, w: W * 0.84, size: U * 0.021 * S, font: FONTS.sans.css, weight: 400,
+          color: hexA(th.sub, 0.95), align: 'center', lh: 1.4
+        });
+        return { x: W * 0.06, y: b1.y, w: W * 0.88, h: b4.y + b4.h - b1.y };
+      });
+      addEl(list, 'illofix', '라인 일러스트', (c) => { overlays(c); return null; });
+    } else {
+      addEl(list, 'head', 'INVITATION', (c) => {
+        const b = cap(c, 'INVITATION', W * 0.2, H * 0.062, W * 0.6, th.accent, U * 0.0155);
+        return b;
+      });
+      addEl(list, 'greeting', '모시는 글', (c) => greetingBlock(c, { x: W * 0.12, y: H * 0.115, w: W * 0.76 }, th, { size: bodySize, align: 'center' }));
+      addEl(list, 'parents', '혼주', (c) => {
+        const y = H * 0.345;
+        const b1 = textBlock(c, f.groomParents, {
+          x: W * 0.08, y, w: W * 0.84, size: smallSize, font: F, weight: 400,
+          color: th.sub, align: 'center', lh: 1.7
+        });
+        const b2 = textBlock(c, f.brideParents, {
+          x: W * 0.08, y: b1.y + b1.h, w: W * 0.84, size: smallSize, font: F, weight: 400,
+          color: th.sub, align: 'center', lh: 1.7
+        });
+        // names
+        const b3 = textBlock(c, `${f.groom}   ·   ${f.bride}`, {
+          x: W * 0.08, y: b2.y + b2.h + U * 0.016, w: W * 0.84, size: U * 0.030 * S, font: F, weight: 700,
+          color: th.ink, align: 'center', lh: 1.5
+        });
+        return { x: W * 0.08, y: b1.y, w: W * 0.84, h: b3.y + b3.h - b1.y };
+      });
+      addEl(list, 'date', '일시·장소', (c) => {
+        const y = H * 0.455;
+        const b1 = textBlock(c, d.main, {
+          x: W * 0.08, y, w: W * 0.84, size: U * 0.055 * S, font: LATIN, weight: 500,
+          color: th.ink, align: 'center', tracking: U * 0.005, lh: 1.3
+        });
+        const b2 = textBlock(c, `${d.wd} ${f.time}`, {
+          x: W * 0.08, y: b1.y + b1.h + U * 0.004, w: W * 0.84, size: U * 0.023 * S, font: F, weight: 500,
+          color: th.sub, align: 'center', lh: 1.5
+        });
+        const b3 = textBlock(c, f.venue, {
+          x: W * 0.08, y: b2.y + b2.h + U * 0.022, w: W * 0.84, size: U * 0.029 * S, font: F, weight: 700,
+          color: th.ink, align: 'center', lh: 1.5
+        });
+        const b4 = textBlock(c, f.addr, {
+          x: W * 0.08, y: b3.y + b3.h + U * 0.003, w: W * 0.84, size: U * 0.0205 * S, font: FONTS.sans.css, weight: 400,
+          color: th.sub, align: 'center', lh: 1.5
+        });
+        return { x: W * 0.08, y: b1.y, w: W * 0.84, h: b4.y + b4.h - b1.y };
+      });
+      addEl(list, 'guide', '오시는 길·식사', (c) => {
+        const y = H * 0.66;
+        let yy = y;
+        let last = null;
+        const gx = W * 0.1, gw = W * 0.44;
+        if (state.show.transport && f.transport) {
+          last = textBlock(c, '오시는 길', {
+            x: gx, y: yy, w: gw, size: labelSize, font: CAPS, weight: 600,
+            color: hexA(th.accent, 0.95), align: 'center', tracking: labelSize * 0.3, lh: 1.4
+          });
+          yy = last.y + last.h + U * 0.006;
+          last = textBlock(c, f.transport, {
+            x: gx, y: yy, w: gw, size: smallSize * 0.95, font: F, weight: 400,
+            color: th.ink, align: 'center', lh: 1.65
+          });
+          yy = last.y + last.h + U * 0.014;
+        }
+        if (state.show.meal && f.meal) {
+          last = textBlock(c, f.meal, {
+            x: gx, y: yy, w: gw, size: smallSize * 0.92, font: F, weight: 400,
+            color: th.sub, align: 'center', lh: 1.6
+          });
+        }
+        return { x: gx, y, w: gw, h: last ? last.y + last.h - y : U * 0.02 };
+      });
+      addEl(list, 'qr', 'QR 코드', (c) => qrBlock(c, { x: W * 0.73, y: H * 0.745, w: W * 0.18 }));
+      addEl(list, 'account', '계좌', (c) => {
+        if (!state.show.account || !f.account) return null;
+        return textBlock(c, f.account, {
+          x: W * 0.1, y: H * 0.845, w: W * 0.34, size: U * 0.0175 * S, font: FONTS.sans.css, weight: 400,
+          color: hexA(th.sub, 0.95), align: 'left', lh: 1.7
+        });
+      });
+      addEl(list, 'illofix', '라인 일러스트', (c) => { overlays(c); return null; });
+    }
+  }
+
+  if (state.preset === 'minimal') {
+    if (side === 'front') {
+      addEl(list, 'head', '상단 문구', (c) => cap(c, 'THE WEDDING OF', W * 0.15, H * 0.135, W * 0.7, th.sub, U * 0.0145));
+      addEl(list, 'names', '이름', (c) => {
+        const b1 = textBlock(c, f.groom, {
+          x: W * 0.08, y: H * 0.235, w: W * 0.84, size: U * 0.088 * S, font: F, weight: 400,
+          color: th.ink, align: 'center', tracking: U * 0.008, lh: 1.12
+        });
+        const b2 = textBlock(c, '&', {
+          x: W * 0.08, y: b1.y + b1.h, w: W * 0.84, size: U * 0.046, font: SCRIPT,
+          color: th.accent, align: 'center', lh: 1.2
+        });
+        const b3 = textBlock(c, f.bride, {
+          x: W * 0.08, y: b2.y + b2.h, w: W * 0.84, size: U * 0.088 * S, font: F, weight: 400,
+          color: th.ink, align: 'center', tracking: U * 0.008, lh: 1.12
+        });
+        return { x: W * 0.08, y: b1.y, w: W * 0.84, h: b3.y + b3.h - b1.y };
+      });
+      addEl(list, 'rule', '구분선', (c) => {
+        c.save();
+        c.strokeStyle = hexA(th.ink, 0.28);
+        c.lineWidth = Math.max(1, U * 0.0012);
+        c.beginPath();
+        c.moveTo(W * 0.36, H * 0.63);
+        c.lineTo(W * 0.64, H * 0.63);
+        c.stroke();
+        c.restore();
+        return { x: W * 0.36, y: H * 0.62, w: W * 0.28, h: H * 0.02 };
+      });
+      addEl(list, 'date', '일시·장소', (c) => {
+        const b1 = textBlock(c, `${d.main} ${d.wd}`, {
+          x: W * 0.08, y: H * 0.665, w: W * 0.84, size: U * 0.031 * S, font: LATIN, weight: 400,
+          color: th.ink, align: 'center', tracking: U * 0.008, lh: 1.5
+        });
+        const b2 = textBlock(c, f.time, {
+          x: W * 0.08, y: b1.y + b1.h + U * 0.004, w: W * 0.84, size: U * 0.021 * S, font: F, weight: 400,
+          color: th.sub, align: 'center', tracking: U * 0.003, lh: 1.5
+        });
+        const b3 = textBlock(c, `${f.venue}`, {
+          x: W * 0.08, y: b2.y + b2.h + U * 0.035, w: W * 0.84, size: U * 0.024 * S, font: F, weight: 500,
+          color: th.ink, align: 'center', lh: 1.6
+        });
+        const b4 = textBlock(c, f.addr, {
+          x: W * 0.08, y: b3.y + b3.h + U * 0.002, w: W * 0.84, size: U * 0.018 * S, font: FONTS.sans.css, weight: 400,
+          color: th.sub, align: 'center', lh: 1.6
+        });
+        return { x: W * 0.08, y: b1.y, w: W * 0.84, h: b4.y + b4.h - b1.y };
+      });
+      addEl(list, 'illofix', '라인 일러스트', (c) => { overlays(c); return null; });
+    } else {
+      addEl(list, 'greeting', '모시는 글', (c) => {
+        const b = greetingBlock(c, { x: W * 0.16, y: H * 0.1, w: W * 0.68 }, th, { size: bodySize * 1.02, align: 'left', lh: 2 });
+        return { x: W * 0.16, y: b.y, w: W * 0.68, h: b.h };
+      });
+      addEl(list, 'names', '혼주·이름', (c) => {
+        const y = H * 0.33;
+        const b1 = textBlock(c, `${f.groomParents}\n${f.brideParents}`, {
+          x: W * 0.16, y, w: W * 0.68, size: smallSize * 0.95, font: F, weight: 400,
+          color: th.sub, align: 'left', lh: 1.9
+        });
+        const b2 = textBlock(c, `${f.groom} · ${f.bride}`, {
+          x: W * 0.16, y: b1.y + b1.h + U * 0.012, w: W * 0.68, size: U * 0.026 * S, font: F, weight: 700,
+          color: th.ink, align: 'left', lh: 1.6
+        });
+        return { x: W * 0.16, y: b1.y, w: W * 0.68, h: b2.y + b2.h - b1.y };
+      });
+      addEl(list, 'info', '안내', (c) => drawInfo(c, { x: W * 0.16, y: H * 0.45, w: W * 0.52 }, { color: th.ink }));
+      addEl(list, 'qr', 'QR 코드', (c) => qrBlock(c, { x: W * 0.72, y: H * 0.47, w: W * 0.16 }));
+      addEl(list, 'illofix', '라인 일러스트', (c) => { overlays(c); return null; });
+    }
+  }
+
+  if (state.preset === 'lineart') {
+    if (side === 'front') {
+      addEl(list, 'arch', '아치 라인', (c) => {
+        c.save();
+        c.strokeStyle = hexA(th.accent, 0.85);
+        c.lineWidth = Math.max(1.3, U * 0.0022);
+        archPath(c, W * 0.16, H * 0.06, W * 0.68, H * 0.82);
+        c.stroke();
+        c.restore();
+        return { x: W * 0.14, y: H * 0.04, w: W * 0.72, h: H * 0.86 };
+      });
+      addEl(list, 'photo', '커플 사진', (c) => {
+        const b = { x: W * 0.21, y: H * 0.145, w: W * 0.58, h: H * 0.46 };
+        drawPhoto(c, b, th, 'arch');
+        return b;
+      });
+      addEl(list, 'names', '이름·일시', (c) => {
+        const b1 = textBlock(c, `${f.groom}  ·  ${f.bride}`, {
+          x: W * 0.12, y: H * 0.655, w: W * 0.76, size: U * 0.042 * S, font: F, weight: 400,
+          color: th.ink, align: 'center', tracking: U * 0.003, lh: 1.4
+        });
+        const b2 = textBlock(c, `${d.main} ${d.wd} · ${f.time}`, {
+          x: W * 0.12, y: b1.y + b1.h + U * 0.012, w: W * 0.76, size: U * 0.021 * S, font: CAPS, weight: 500,
+          color: th.sub, align: 'center', tracking: U * 0.005, lh: 1.5
+        });
+        const b3 = textBlock(c, f.venue, {
+          x: W * 0.12, y: b2.y + b2.h + U * 0.006, w: W * 0.76, size: U * 0.019 * S, font: FONTS.sans.css, weight: 400,
+          color: hexA(th.sub, 0.9), align: 'center', lh: 1.5
+        });
+        return { x: W * 0.12, y: b1.y, w: W * 0.76, h: b3.y + b3.h - b1.y };
+      });
+      addEl(list, 'illos', '라인 일러스트', (c) => {
+        drawIllo(c, 'flower', { x: W * 0.05, y: H * 0.5, w: W * 0.16, h: W * 0.16 }, hexA(th.accent, 0.8), Math.max(1, U * 0.0015));
+        drawIllo(c, 'flower', { x: W * 0.8, y: H * 0.78, w: W * 0.15, h: W * 0.15 }, hexA(th.accent, 0.7), Math.max(1, U * 0.0015));
+        overlays(c);
+        return null;
+      });
+    } else {
+      addEl(list, 'head', '상단 장식', (c) => {
+        drawIllo(c, 'flower', { x: W * 0.4, y: H * 0.055, w: W * 0.2, h: W * 0.2 }, hexA(th.accent, 0.85), Math.max(1.2, U * 0.0018));
+        return { x: W * 0.38, y: H * 0.05, w: W * 0.24, h: W * 0.2 };
+      });
+      addEl(list, 'greeting', '모시는 글', (c) => greetingBlock(c, { x: W * 0.14, y: H * 0.195, w: W * 0.72 }, th, { size: bodySize * 0.96, align: 'center' }));
+      addEl(list, 'parents', '혼주', (c) => {
+        const b1 = textBlock(c, `${f.groomParents}\n${f.brideParents}`, {
+          x: W * 0.1, y: H * 0.375, w: W * 0.8, size: smallSize * 0.92, font: F, weight: 400,
+          color: th.sub, align: 'center', lh: 1.75
+        });
+        const b2 = textBlock(c, `${f.groom} · ${f.bride}`, {
+          x: W * 0.1, y: b1.y + b1.h + U * 0.008, w: W * 0.8, size: U * 0.024 * S, font: F, weight: 700,
+          color: th.ink, align: 'center', lh: 1.5
+        });
+        return { x: b1.x, y: b1.y, w: b1.w, h: b2.y + b2.h - b1.y };
+      });
+      addEl(list, 'date', '일시·장소', (c) => {
+        const b1 = textBlock(c, `${d.main} ${d.wd}`, {
+          x: W * 0.1, y: H * 0.475, w: W * 0.8, size: U * 0.036 * S, font: LATIN, weight: 500,
+          color: th.ink, align: 'center', tracking: U * 0.005, lh: 1.4
+        });
+        const b2 = textBlock(c, `${f.time} · ${f.venue}`, {
+          x: W * 0.1, y: b1.y + b1.h + U * 0.008, w: W * 0.8, size: U * 0.0205 * S, font: F, weight: 500,
+          color: th.ink, align: 'center', lh: 1.6
+        });
+        const b3 = textBlock(c, f.addr, {
+          x: W * 0.1, y: b2.y + b2.h + U * 0.002, w: W * 0.8, size: U * 0.0175 * S, font: FONTS.sans.css, weight: 400,
+          color: th.sub, align: 'center', lh: 1.6
+        });
+        return { x: W * 0.1, y: b1.y, w: W * 0.8, h: b3.y + b3.h - b1.y };
+      });
+      addEl(list, 'info', '안내', (c) => {
+        const b = drawInfo(c, { x: W * 0.25, y: H * 0.605, w: W * 0.5 }, {
+          align: 'center', color: th.ink, skip: ['DATE', 'PLACE'],
+          valueSize: U * 0.0245 * S, labelSize: U * 0.0195 * S, rowGap: 0.016
+        });
+        return b;
+      });
+      addEl(list, 'qr', 'QR 코드', (c) => qrBlock(c, { x: W * 0.82, y: H * 0.6, w: W * 0.13 }));
+      addEl(list, 'illos', '라인 일러스트', (c) => {
+        drawIllo(c, 'ribbon', { x: W * 0.06, y: H * 0.08, w: W * 0.14, h: W * 0.14 }, hexA(th.accent, 0.7), Math.max(1, U * 0.0015));
+        overlays(c);
+        return null;
+      });
+    }
+  }
+
+  if (state.preset === 'calendar') {
+    if (side === 'front') {
+      addEl(list, 'photo', '커플 사진', (c) => {
+        const b = { x: 0, y: 0, w: W, h: H * 0.52 };
+        drawPhoto(c, b, th, 'rect');
+        return b;
+      });
+      addEl(list, 'names', '이름', (c) => {
+        const b1 = textBlock(c, `${f.groom}  ·  ${f.bride}`, {
+          x: W * 0.08, y: H * 0.555, w: W * 0.84, size: U * 0.038 * S, font: F, weight: 700,
+          color: th.ink, align: 'center', tracking: U * 0.004, lh: 1.4
+        });
+        const b2 = textBlock(c, `INVITATION · ${d.main}`, {
+          x: W * 0.08, y: b1.y + b1.h + U * 0.006, w: W * 0.84, size: U * 0.0155, font: CAPS, weight: 600,
+          color: th.accent, align: 'center', tracking: U * 0.006, lh: 1.4
+        });
+        return { x: W * 0.08, y: b1.y, w: W * 0.84, h: b2.y + b2.h - b1.y };
+      });
+      addEl(list, 'calendar', '미니 달력', (c) => {
+        if (!state.show.calendar) return null;
+        return drawCalendar(c, { x: W * 0.1, y: H * 0.625, w: W * 0.8, h: H * 0.285 }, th, {});
+      });
+      addEl(list, 'venue', '장소', (c) => textBlock(c, `${f.time} · ${f.venue}`, {
+        x: W * 0.08, y: H * 0.925, w: W * 0.84, size: U * 0.019 * S, font: FONTS.sans.css, weight: 400,
+        color: th.sub, align: 'center', lh: 1.5
+      }));
+      addEl(list, 'illofix', '라인 일러스트', (c) => { overlays(c); return null; });
+    } else {
+      addEl(list, 'greeting', '모시는 글', (c) => greetingBlock(c, { x: W * 0.12, y: H * 0.095, w: W * 0.76 }, th, { size: bodySize * 0.95, align: 'center' }));
+      addEl(list, 'parents', '혼주', (c) => {
+        const b1 = textBlock(c, `${f.groomParents}\n${f.brideParents}`, {
+          x: W * 0.08, y: H * 0.3, w: W * 0.84, size: smallSize * 0.92, font: F, weight: 400,
+          color: th.sub, align: 'center', lh: 1.8
+        });
+        const b2 = textBlock(c, `${f.groom} · ${f.bride}`, {
+          x: W * 0.08, y: b1.y + b1.h + U * 0.008, w: W * 0.84, size: U * 0.024 * S, font: F, weight: 700,
+          color: th.ink, align: 'center', lh: 1.5
+        });
+        return { x: b1.x, y: b1.y, w: b1.w, h: b2.y + b2.h - b1.y };
+      });
+      addEl(list, 'date', '일시·장소', (c) => {
+        const b1 = textBlock(c, `${d.main} ${d.wd}`, {
+          x: W * 0.08, y: H * 0.43, w: W * 0.84, size: U * 0.042 * S, font: LATIN, weight: 500,
+          color: th.ink, align: 'center', tracking: U * 0.005, lh: 1.4
+        });
+        const b2 = textBlock(c, `${f.time} · ${f.venue}`, {
+          x: W * 0.08, y: b1.y + b1.h + U * 0.006, w: W * 0.84, size: U * 0.022 * S, font: F, weight: 700,
+          color: th.ink, align: 'center', lh: 1.6
+        });
+        const b3 = textBlock(c, f.addr, {
+          x: W * 0.08, y: b2.y + b2.h + U * 0.002, w: W * 0.84, size: U * 0.018 * S, font: FONTS.sans.css, weight: 400,
+          color: th.sub, align: 'center', lh: 1.6
+        });
+        return { x: W * 0.08, y: b1.y, w: W * 0.84, h: b3.y + b3.h - b1.y };
+      });
+      addEl(list, 'info', '안내', (c) => drawInfo(c, { x: W * 0.24, y: H * 0.56, w: W * 0.52 }, {
+        align: 'center', color: th.ink, skip: ['DATE', 'PLACE'],
+        valueSize: U * 0.0245 * S, labelSize: U * 0.0195 * S, rowGap: 0.016
+      }));
+      addEl(list, 'qr', 'QR 코드', (c) => qrBlock(c, { x: W * 0.79, y: H * 0.86, w: W * 0.14 }));
+      addEl(list, 'illofix', '라인 일러스트', (c) => { overlays(c); return null; });
+    }
+  }
+
+  if (state.preset === 'fold') {
+    const pw = W / 2;
+    const P = (i, x) => i * pw + x;
+    if (side === 'front') {
+      // 오른쪽 패널 = 표지
+      addEl(list, 'photo', '표지 사진', (c) => {
+        const b = { x: pw, y: 0, w: pw, h: H * 0.66 };
+        drawPhoto(c, b, th, 'rect');
+        return b;
+      });
+      addEl(list, 'cover', '표지 문구', (c) => {
+        const b1 = textBlock(c, 'WEDDING INVITATION', {
+          x: pw + pw * 0.08, y: H * 0.7, w: pw * 0.84, size: U * 0.0145, font: CAPS, weight: 600,
+          color: th.accent, align: 'center', tracking: U * 0.007, lh: 1.4
+        });
+        const b2 = textBlock(c, `${f.groom} · ${f.bride}`, {
+          x: pw + pw * 0.05, y: H * 0.735, w: pw * 0.9, size: U * 0.048 * S, font: F, weight: 400,
+          color: th.ink, align: 'center', tracking: U * 0.001, lh: 1.35
+        });
+        const b3 = textBlock(c, `${d.main} ${d.wd}`, {
+          x: pw + pw * 0.08, y: b2.y + b2.h + U * 0.012, w: pw * 0.84, size: U * 0.024 * S, font: LATIN, weight: 500,
+          color: th.sub, align: 'center', tracking: U * 0.004, lh: 1.4
+        });
+        return { x: pw, y: b1.y, w: pw, h: b3.y + b3.h - b1.y };
+      });
+      // 왼쪽 패널 = 뒷표지
+      addEl(list, 'backcover', '뒷표지', (c) => {
+        const b1 = textBlock(c, 'THE WEDDING DAY', {
+          x: pw * 0.1, y: H * 0.13, w: pw * 0.8, size: U * 0.0135, font: CAPS, weight: 600,
+          color: th.accent, align: 'center', tracking: U * 0.007, lh: 1.6
+        });
+        c.save();
+        c.strokeStyle = hexA(th.accent, 0.75);
+        c.lineWidth = Math.max(1, U * 0.0014);
+        heartPath(c, pw * 0.5, H * 0.5, U * 0.05);
+        c.stroke();
+        c.restore();
+        const b2 = textBlock(c, `${f.venue}\n${f.addr}`, {
+          x: pw * 0.1, y: H * 0.72, w: pw * 0.8, size: U * 0.019 * S, font: F, weight: 400,
+          color: th.sub, align: 'center', lh: 1.8
+        });
+        return { x: 0, y: b1.y, w: pw, h: b2.y + b2.h - b1.y };
+      });
+      addEl(list, 'illofix', '라인 일러스트', (c) => { overlays(c); return null; });
+    } else {
+      // 안쪽 왼쪽 = 모시는 글 + 혼주
+      addEl(list, 'greeting', '모시는 글', (c) => {
+        const b = greetingBlock(c, { x: pw * 0.1, y: H * 0.12, w: pw * 0.8 }, th, { size: bodySize * 0.92, align: 'center', lh: 1.95 });
+        return b;
+      });
+      addEl(list, 'parents', '혼주', (c) => {
+        const b = textBlock(c, `${f.groomParents}\n${f.brideParents}`, {
+          x: pw * 0.08, y: H * 0.58, w: pw * 0.84, size: smallSize * 0.85, font: F, weight: 400,
+          color: th.sub, align: 'center', lh: 1.9
+        });
+        return b;
+      });
+      addEl(list, 'names', '이름', (c) => textBlock(c, `${f.groom}  ·  ${f.bride}`, {
+        x: pw * 0.06, y: H * 0.72, w: pw * 0.88, size: U * 0.027 * S, font: F, weight: 700,
+        color: th.ink, align: 'center', lh: 1.5
+      }));
+      // 안쪽 오른쪽 = 안내
+      addEl(list, 'date', '일시·장소', (c) => {
+        const b1 = textBlock(c, `${d.main} ${d.wd}`, {
+          x: pw + pw * 0.1, y: H * 0.11, w: pw * 0.8, size: U * 0.036 * S, font: LATIN, weight: 500,
+          color: th.ink, align: 'center', tracking: U * 0.004, lh: 1.4
+        });
+        const b2 = textBlock(c, `${f.time}`, {
+          x: pw + pw * 0.1, y: b1.y + b1.h + U * 0.004, w: pw * 0.8, size: U * 0.02 * S, font: F, weight: 500,
+          color: th.sub, align: 'center', lh: 1.5
+        });
+        const b3 = textBlock(c, `${f.venue}`, {
+          x: pw + pw * 0.1, y: b2.y + b2.h + U * 0.016, w: pw * 0.8, size: U * 0.026 * S, font: F, weight: 700,
+          color: th.ink, align: 'center', lh: 1.5
+        });
+        const b4 = textBlock(c, f.addr, {
+          x: pw + pw * 0.1, y: b3.y + b3.h + U * 0.002, w: pw * 0.8, size: U * 0.0175 * S, font: FONTS.sans.css, weight: 400,
+          color: th.sub, align: 'center', lh: 1.5
+        });
+        return { x: pw, y: b1.y, w: pw, h: b4.y + b4.h - b1.y };
+      });
+      addEl(list, 'info', '안내', (c) => drawInfo(c, { x: pw + pw * 0.12, y: H * 0.335, w: pw * 0.76 }, {
+        align: 'center', color: th.ink, skip: ['DATE', 'PLACE'],
+        rowGap: 0.012, valueSize: U * 0.022 * S, labelSize: U * 0.0165 * S, lh: 1.45
+      }));
+      addEl(list, 'calendar', '미니 달력', (c) => {
+        if (!state.show.calendar) return null;
+        return drawCalendar(c, { x: pw + pw * 0.19, y: H * 0.675, w: pw * 0.62, h: H * 0.2 }, th, {});
+      });
+      addEl(list, 'qr', 'QR 코드', (c) => qrBlock(c, { x: pw * 0.5 - W * 0.045, y: H * 0.8, w: W * 0.09 }));
+      addEl(list, 'illofix', '라인 일러스트', (c) => { overlays(c); return null; });
+    }
+  }
+
+  if (state.preset === 'story') {
+    if (side === 'front') {
+      addEl(list, 'photo', '커플 사진', (c) => {
+        const b = { x: 0, y: 0, w: W, h: H * 0.62 };
+        drawPhoto(c, b, th, 'rect');
+        const g = c.createLinearGradient(0, H * 0.48, 0, H * 0.66);
+        g.addColorStop(0, hexA(th.bg, 0));
+        g.addColorStop(1, th.bg);
+        c.save();
+        c.fillStyle = g;
+        c.fillRect(0, H * 0.48, W, H * 0.18);
+        c.restore();
+        return b;
+      });
+      addEl(list, 'title', '이름·일시', (c) => {
+        const b1 = textBlock(c, 'WE ARE GETTING MARRIED', {
+          x: W * 0.08, y: H * 0.655, w: W * 0.84, size: U * 0.018, font: CAPS, weight: 600,
+          color: th.accent, align: 'center', tracking: U * 0.008, lh: 1.5
+        });
+        const b2 = textBlock(c, `${f.groom}`, {
+          x: W * 0.06, y: H * 0.705, w: W * 0.88, size: U * 0.062 * S, font: F, weight: 400,
+          color: th.ink, align: 'center', lh: 1.25
+        });
+        const b3 = textBlock(c, '·', {
+          x: W * 0.06, y: b2.y + b2.h, w: W * 0.88, size: U * 0.03, font: SCRIPT,
+          color: th.accent, align: 'center', lh: 1.2
+        });
+        const b4 = textBlock(c, `${f.bride}`, {
+          x: W * 0.06, y: b3.y + b3.h, w: W * 0.88, size: U * 0.062 * S, font: F, weight: 400,
+          color: th.ink, align: 'center', lh: 1.25
+        });
+        return { x: W * 0.06, y: b1.y, w: W * 0.88, h: b4.y + b4.h - b1.y };
+      });
+      addEl(list, 'date', '일시·장소', (c) => {
+        const b1 = textBlock(c, `${d.main} ${d.wd}`, {
+          x: W * 0.08, y: H * 0.875, w: W * 0.84, size: U * 0.031 * S, font: LATIN, weight: 500,
+          color: th.ink, align: 'center', tracking: U * 0.006, lh: 1.5
+        });
+        const b2 = textBlock(c, `${f.time} · ${f.venue}`, {
+          x: W * 0.08, y: b1.y + b1.h + U * 0.004, w: W * 0.84, size: U * 0.019 * S, font: FONTS.sans.css, weight: 400,
+          color: th.sub, align: 'center', lh: 1.5
+        });
+        return { x: W * 0.08, y: b1.y, w: W * 0.84, h: b2.y + b2.h - b1.y };
+      });
+      addEl(list, 'illofix', '라인 일러스트', (c) => { overlays(c); return null; });
+    } else {
+      addEl(list, 'greeting', '모시는 글', (c) => greetingBlock(c, { x: W * 0.12, y: H * 0.18, w: W * 0.76 }, th, { size: bodySize * 1.05, align: 'center' }));
+      addEl(list, 'parents', '혼주', (c) => textBlock(c, `${f.groomParents}\n${f.brideParents}`, {
+        x: W * 0.08, y: H * 0.33, w: W * 0.84, size: smallSize * 0.95, font: F, weight: 400,
+        color: th.sub, align: 'center', lh: 1.9
+      }));
+      addEl(list, 'date', '일시·장소', (c) => {
+        const b1 = textBlock(c, `${d.main} ${d.wd}`, {
+          x: W * 0.08, y: H * 0.43, w: W * 0.84, size: U * 0.033 * S, font: LATIN, weight: 500,
+          color: th.ink, align: 'center', tracking: U * 0.006, lh: 1.4
+        });
+        const b2 = textBlock(c, `${f.time} · ${f.venue}`, {
+          x: W * 0.08, y: b1.y + b1.h + U * 0.008, w: W * 0.84, size: U * 0.0195 * S, font: F, weight: 500,
+          color: th.ink, align: 'center', lh: 1.6
+        });
+        const b3 = textBlock(c, f.addr, {
+          x: W * 0.08, y: b2.y + b2.h + U * 0.002, w: W * 0.84, size: U * 0.0165 * S, font: FONTS.sans.css, weight: 400,
+          color: th.sub, align: 'center', lh: 1.6
+        });
+        return { x: W * 0.08, y: b1.y, w: W * 0.84, h: b3.y + b3.h - b1.y };
+      });
+      addEl(list, 'info', '안내', (c) => drawInfo(c, { x: W * 0.16, y: H * 0.565, w: W * 0.68 }, {
+        align: 'center', color: th.ink, skip: ['DATE', 'PLACE'],
+        valueSize: U * 0.024 * S, labelSize: U * 0.018 * S, rowGap: 0.016
+      }));
+      addEl(list, 'qr', 'QR 코드', (c) => qrBlock(c, { x: W * 0.76, y: H * 0.835, w: W * 0.16 }));
+      addEl(list, 'illofix', '라인 일러스트', (c) => { overlays(c); return null; });
+    }
+  }
+
+  const layerOf = (el) => el.id === 'photo' ? 0 :
+    (el.id === 'illofix' || el.id === 'illos' || el.id === 'arch' ? 1 : 2);
+  list.sort((a, b) => layerOf(a) - layerOf(b));
+  return list;
+}
+
+/* ---------- 렌더 ---------- */
+function effectiveSize() {
+  let s = SIZES[state.size] || SIZES.a6;
+  let wmm = s.mm ? s.mm[0] : null, hmm = s.mm ? s.mm[1] : null;
+  if (state.preset === 'fold' && s.mm) wmm = wmm * 2;
+  return { s, wmm, hmm };
+}
+function computeCanvas() {
+  const { s, wmm, hmm } = effectiveSize();
+  if (!s.mm) return { W: s.px[0], H: s.px[1], wmm: null, hmm: null };
+  return {
+    W: Math.round((wmm / 25.4) * DPI),
+    H: Math.round((hmm / 25.4) * DPI),
+    wmm, hmm
+  };
+}
+let rafId = null;
+function render() {
+  if (rafId) return;
+  rafId = requestAnimationFrame(() => { rafId = null; draw(); });
+}
+function draw() {
+  const size = computeCanvas();
+  if (state.preset === 'fold' && state.size === 'story') state.size = 'a6';
+  if (cv.width !== size.W || cv.height !== size.H) {
+    cv.width = size.W;
+    cv.height = size.H;
+  }
+  CW = size.W; CH = size.H;
+  ctx.clearRect(0, 0, CW, CH);
+  const th = PALETTES[state.palette];
+  paperBg(ctx, th);
+  scene = buildScene(state.side);
+  for (const el of scene) {
+    let box = null;
+    try { box = el.draw(ctx); } catch (e) { console.warn('draw fail', el.id, e); }
+    el.hit = box;
+    if (box) {
+      if (box.x < 0 || box.y < 0 || box.x + box.w > CW + 1 || box.y + box.h > CH + 1) {
+        // 요소가 캔버스를 살짝 벗어나도 저장은 그대로 (잘림 안내는 인쇄 탭에서)
+      }
+    }
+  }
+  drawFramePass(th);
+  if (state.guides) drawGuides(th);
+  if (state.selected) drawSelection();
+  updateMeta(size);
+}
+function drawFramePass(th) {
+  const U = Math.min(CW, CH), M = U * 0.085;
+  if (state.frame) {
+    if (state.preset === 'classic' && state.side === 'back') frameLines(ctx, th, M * 0.62, true);
+    else if (!(state.preset === 'classic' && state.side === 'front')) frameLines(ctx, th, M * 0.5, false);
+  }
+  if (state.preset === 'fold' && state.foldLine) {
+    ctx.save();
+    ctx.strokeStyle = hexA(th.ink, state.guides ? 0.38 : 0.16);
+    ctx.lineWidth = Math.max(1, U * 0.0012);
+    ctx.setLineDash([U * 0.012, U * 0.01]);
+    ctx.beginPath();
+    ctx.moveTo(CW / 2, 0);
+    ctx.lineTo(CW / 2, CH);
+    ctx.stroke();
+    ctx.restore();
+  }
+}
+function drawGuides(th) {
+  const U = Math.min(CW, CH);
+  const mmPx = effectiveSize().wmm ? CW / effectiveSize().wmm : null;
+  const inset = mmPx ? 3 * mmPx : U * 0.03;
+  ctx.save();
+  ctx.strokeStyle = 'rgba(158,59,59,.55)';
+  ctx.lineWidth = Math.max(1, U * 0.0012);
+  ctx.setLineDash([U * 0.012, U * 0.008]);
+  ctx.strokeRect(inset, inset, CW - inset * 2, CH - inset * 2);
+  ctx.strokeStyle = 'rgba(43,38,32,.35)';
+  ctx.setLineDash([U * 0.004, U * 0.01]);
+  const crop = U * 0.022;
+  const corners = [[0, 0], [CW, 0], [0, CH], [CW, CH]];
+  for (const [x, y] of corners) {
+    ctx.beginPath();
+    ctx.moveTo(x < CW / 2 ? x : x - crop, y < CH / 2 ? y + crop : y - crop);
+    ctx.lineTo(x < CW / 2 ? x : x - crop, y);
+    ctx.lineTo(x < CW / 2 ? x + crop : x - crop, y);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+function drawSelection() {
+  const el = scene.find(e => e.id === state.selected);
+  if (!el || !el.hit) return;
+  const b = el.hit;
+  const U = Math.min(CW, CH);
+  ctx.save();
+  ctx.strokeStyle = 'rgba(151,105,75,.95)';
+  ctx.lineWidth = Math.max(1.5, U * 0.002);
+  ctx.setLineDash([U * 0.008, U * 0.006]);
+  ctx.strokeRect(b.x - 3, b.y - 3, b.w + 6, b.h + 6);
+  ctx.setLineDash([]);
+  const label = el.label || el.id;
+  setFont(ctx, U * 0.017, FONTS.sans.css, 600);
+  const tw = ctx.measureText(label).width;
+  const pad = U * 0.012;
+  const ly = Math.max(0, b.y - U * 0.045);
+  ctx.fillStyle = 'rgba(27,24,21,.88)';
+  roundRect(ctx, b.x - 3, ly, tw + pad * 2, U * 0.036, U * 0.01);
+  ctx.fill();
+  ctx.fillStyle = '#f8f0e3';
+  ctx.textBaseline = 'middle';
+  ctx.textAlign = 'left';
+  ctx.fillText(label, b.x - 3 + pad, ly + U * 0.019);
+  ctx.restore();
+}
+function updateMeta(size) {
+  const label = size.wmm ? `${size.W} × ${size.H}px · 300dpi · ${Math.round(size.wmm)}×${Math.round(size.hmm)}mm`
+    : `${size.W} × ${size.H}px · 9:16`;
+  $('#dpiInfo').textContent = label;
+  const s = effectiveSize().s;
+  $('#paperInfo').textContent = state.preset === 'fold' ? '2단 펼친 면' : s.label;
+  $('#sizeNote').textContent = s.mm ? `재단 ${s.mm[0]}×${s.mm[1]}mm · 300dpi` : '모바일 이미지 1080×1920';
+  $('#frontSub').textContent = state.preset === 'fold' ? '겉면' : '표지';
+  $('#backSub').textContent = state.preset === 'fold' ? '안쪽' : '안내';
+  $('#foldChkWrap').hidden = state.preset !== 'fold';
+  $$('.side-tab').forEach(b => b.classList.toggle('active', b.dataset.side === state.side));
+  const sel = state.selected ? scene.find(e => e.id === state.selected) : null;
+  const bar = $('#selBar');
+  if (sel) {
+    bar.hidden = false;
+    $('#selName').textContent = sel.label || sel.id;
+  } else bar.hidden = true;
+  updateSpec();
+}
+
+/* ---------- 좌표/선택 ---------- */
+function evtPoint(e) {
+  const r = cv.getBoundingClientRect();
+  return { x: ((e.clientX - r.left) / r.width) * CW, y: ((e.clientY - r.top) / r.height) * CH };
+}
+function hitTest(p) {
+  for (let i = scene.length - 1; i >= 0; i--) {
+    const el = scene[i];
+    const b = el.hit;
+    if (!b) continue;
+    const pad = Math.min(CW, CH) * 0.012;
+    if (p.x >= b.x - pad && p.x <= b.x + b.w + pad && p.y >= b.y - pad && p.y <= b.y + b.h + pad) return el;
+  }
+  return null;
+}
+function setOffset(id, dx, dy) {
+  const k = posKey(id);
+  state.pos[k] = { dx: clamp(dx, -0.4, 0.4), dy: clamp(dy, -0.4, 0.4) };
+}
+cv.addEventListener('pointerdown', (e) => {
+  cv.focus({ preventScroll: true });
+  const p = evtPoint(e);
+  const el = hitTest(p);
+  if (!el) { state.selected = null; draw(); return; }
+  state.selected = el.id;
+  const cur = getPos(el.id);
+  const isPhoto = el.id === 'photo';
+  drag = {
+    id: el.id, startX: p.x, startY: p.y,
+    base: { dx: cur.dx, dy: cur.dy },
+    mode: isPhoto && state.photo.img ? 'pan' : 'move',
+    pan: { px: state.photo.px, py: state.photo.py }
+  };
+  try { cv.setPointerCapture(e.pointerId); } catch (_) {}
+  draw();
+});
+cv.addEventListener('pointermove', (e) => {
+  if (!drag) return;
+  const p = evtPoint(e);
+  const dx = p.x - drag.startX, dy = p.y - drag.startY;
+  if (drag.mode === 'pan') {
+    state.photo.px = clamp(drag.pan.px + dx / CW, -0.6, 0.6);
+    state.photo.py = clamp(drag.pan.py + dy / CH, -0.6, 0.6);
+    $('#zoomRange').value = state.photo.zoom;
+  } else {
+    setOffset(drag.id, drag.base.dx + dx / CW, drag.base.dy + dy / CH);
+  }
+  draw();
+});
+function endDrag() { drag = null; }
+cv.addEventListener('pointerup', endDrag);
+cv.addEventListener('pointercancel', endDrag);
+cv.addEventListener('pointerleave', () => { if (drag && drag.mode === 'move') { /* keep capture */ } });
+cv.addEventListener('keydown', (e) => {
+  if (!state.selected) return;
+  const step = e.shiftKey ? 0.01 : 0.0025;
+  const map = { ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0] };
+  if (!map[e.key]) return;
+  e.preventDefault();
+  const cur = getPos(state.selected);
+  setOffset(state.selected, cur.dx + map[e.key][0] * step, cur.dy + map[e.key][1] * step);
+  draw();
+});
+
+/* ---------- UI: 프리셋 ---------- */
+function presetThumb(id) {
+  const line = 'rgba(43,38,32,.32)';
+  const fill = '#e9dcc6';
+  if (id === 'classic') return `<svg viewBox="0 0 60 84"><rect width="60" height="84" fill="#fbf6ec"/><rect width="60" height="50" fill="${fill}"/><rect x="14" y="56" width="32" height="3" fill="${line}"/><rect x="20" y="64" width="20" height="2" fill="${line}"/><rect x="22" y="70" width="16" height="2" fill="${line}"/></svg>`;
+  if (id === 'minimal') return `<svg viewBox="0 0 60 84"><rect width="60" height="84" fill="#fff"/><rect x="16" y="24" width="28" height="4" fill="${line}"/><rect x="20" y="33" width="20" height="2" fill="${line}"/><rect x="16" y="41" width="28" height="4" fill="${line}"/><rect x="22" y="56" width="16" height="2" fill="${line}"/><rect x="25" y="63" width="10" height="2" fill="${line}"/></svg>`;
+  if (id === 'lineart') return `<svg viewBox="0 0 60 84"><rect width="60" height="84" fill="#f1f2ea"/><path d="M14 76V34a16 16 0 0 1 32 0v42" fill="none" stroke="#7c8a6b" stroke-width="1.2"/><rect x="19" y="30" width="22" height="24" fill="${fill}"/><rect x="21" y="60" width="18" height="2" fill="${line}"/><rect x="24" y="66" width="12" height="2" fill="${line}"/></svg>`;
+  if (id === 'calendar') return `<svg viewBox="0 0 60 84"><rect width="60" height="84" fill="#faeeea"/><rect width="60" height="38" fill="${fill}"/><rect x="10" y="44" width="40" height="2" fill="${line}"/><g fill="${line}"><rect x="12" y="54" width="4" height="3"/><rect x="20" y="54" width="4" height="3"/><rect x="28" y="54" width="4" height="3"/><rect x="36" y="54" width="4" height="3"/><rect x="44" y="54" width="4" height="3"/><rect x="12" y="62" width="4" height="3"/><rect x="20" y="62" width="4" height="3"/><rect x="36" y="62" width="4" height="3"/><rect x="44" y="62" width="4" height="3"/><rect x="12" y="70" width="4" height="3"/><rect x="20" y="70" width="4" height="3"/><rect x="28" y="70" width="4" height="3"/><rect x="36" y="70" width="4" height="3"/></g><circle cx="28" cy="63" r="3.2" fill="#c08479"/></svg>`;
+  if (id === 'fold') return `<svg viewBox="0 0 60 44"><rect width="60" height="44" fill="#fbf6ec"/><rect x="30" width="30" height="26" fill="${fill}"/><line x1="30" y1="0" x2="30" y2="44" stroke="${line}" stroke-dasharray="2 2"/><rect x="8" y="14" width="14" height="2" fill="${line}"/><rect x="36" y="30" width="18" height="2" fill="${line}"/><rect x="39" y="35" width="12" height="2" fill="${line}"/></svg>`;
+  return `<svg viewBox="0 0 46 84"><rect width="46" height="84" fill="#1e1d1a"/><rect width="46" height="50" fill="#3a352d"/><rect x="9" y="56" width="28" height="3" fill="rgba(244,237,225,.5)"/><rect x="13" y="64" width="20" height="2" fill="rgba(244,237,225,.28)"/><rect x="16" y="72" width="14" height="2" fill="rgba(244,237,225,.28)"/></svg>`;
+}
+function renderPresets() {
+  const g = $('#presetGrid');
+  g.innerHTML = PRESETS.map(p => `
+    <button type="button" class="preset${p.id === state.preset ? ' active' : ''}" data-preset="${p.id}" aria-pressed="${p.id === state.preset}">
+      ${presetThumb(p.id)}
+      <span class="pname">${p.name}</span>
+      <span class="pdesc">${p.desc}</span>
+    </button>`).join('');
+}
+function renderSwatches() {
+  const wrap = $('#swatches');
+  wrap.innerHTML = Object.entries(PALETTES).map(([k, p]) => `
+    <button type="button" class="sw${k === state.palette ? ' active' : ''}" data-palette="${k}" aria-pressed="${k === state.palette}">
+      <i style="background:${p.bg};border:1px solid ${hexA(p.ink, .25)}"></i>${p.name}
+    </button>`).join('');
+  $('#paletteName').textContent = PALETTES[state.palette].name;
+}
+function renderFonts() {
+  $('#fontSel').innerHTML = Object.entries(FONTS).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join('');
+  $('#fontSel').value = state.font;
+}
+function renderGreetChips() {
+  $('#greetChips').innerHTML = Object.entries(GREET_LABELS).map(([k, v]) =>
+    `<button type="button" class="chip${state.fields.greeting === GREETINGS[k] ? ' active' : ''}" data-greet="${k}">${v}</button>`).join('');
+}
+function renderFilterChips() {
+  $('#filterChips').innerHTML = FILTERS.map(f =>
+    `<button type="button" class="chip${f.id === state.photo.filter ? ' active' : ''}" data-filter="${f.id}">${f.label}</button>`).join('');
+}
+function renderSizes() {
+  const sel = $('#sizeSel');
+  const opts = Object.entries(SIZES).filter(([k]) => state.preset === 'story' ? k === 'story' : k !== 'story');
+  sel.innerHTML = opts.map(([k, s]) => `<option value="${k}">${s.label} · ${s.note}</option>`).join('');
+  if (!opts.some(([k]) => k === state.size)) state.size = opts[0][0];
+  sel.value = state.size;
+}
+function renderPapers() {
+  $('#paperCards').innerHTML = PAPERS.map(p => `
+    <div class="card">
+      <div class="ctop"><b>${p.name}</b>${p.badge ? `<span class="badge${p.badge === '가장 무난' || p.badge === '감성' ? '' : ' rose'}">${p.badge}</span>` : ''}</div>
+      <p>${p.text}</p>
+      <span class="meta">${p.meta}</span>
+    </div>`).join('');
+}
+function renderChecklist() {
+  $('#checklist').innerHTML = CHECKS.map((t, i) => `
+    <label class="check"><input type="checkbox" data-check="${i}"><span>${t}</span></label>`).join('');
+  updateChecklist();
+}
+function updateChecklist() {
+  const boxes = $$('#checklist input');
+  const done = boxes.filter(b => b.checked).length;
+  $('#checkCount').textContent = `${done} / ${boxes.length}`;
+  $('#checkBar').style.width = boxes.length ? `${(done / boxes.length) * 100}%` : '0%';
+  boxes.forEach(b => b.closest('.check').classList.toggle('done', b.checked));
+}
+function updateQty() {
+  const n = Math.max(0, Number($('#guests').value) || 0);
+  const qty = n > 0 ? Math.ceil((n * 0.65) / 10) * 10 + 20 : 0;
+  $('#qtyBadge').textContent = qty ? `약 ${qty}매` : '계산';
+  $('#qtyOut').innerHTML = n > 0
+    ? `하객 <b>${n}명</b> 기준 → 청첩장 <b>${qty}매</b>, 봉투 <b>${qty}장</b>, 스티커 <b>${qty}장</b><br>식권은 참석 인원 기준 약 <b>${Math.ceil(n * 0.85)}매</b> (여유 10% 포함)`
+    : '하객 수를 입력하면 권장 수량을 계산해 드려요.';
+}
+function updateSpec() {
+  const size = computeCanvas();
+  const s = effectiveSize().s;
+  const rows = [
+    ['규격', state.preset === 'fold' ? '2단 접지 · 펼친 면' : s.label],
+    ['재단 크기', size.wmm ? `${Math.round(size.wmm)} × ${Math.round(size.hmm)} mm` : '1080 × 1920 px'],
+    ['파일 크기', `${size.W} × ${size.H} px`],
+    ['해상도', size.wmm ? '300 dpi' : '9:16 (1080×1920)'],
+    ['도련', size.wmm ? '없음 · 재단 사이즈로 저장' : '—'],
+    ['안전영역', size.wmm ? '가장자리 3mm 안쪽' : '가장자리 4% 안쪽']
+  ];
+  $('#specList').innerHTML = rows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('');
+}
+
+/* ---------- UI 이벤트 ---------- */
+document.addEventListener('click', (e) => {
+  const preset = e.target.closest('[data-preset]');
+  if (preset) {
+    state.preset = preset.dataset.preset;
+    const p = PRESETS.find(x => x.id === state.preset);
+    state.palette = p.palette;
+    state.font = p.font;
+    if (state.preset === 'story') state.size = 'story';
+    else if (state.size === 'story') state.size = 'a6';
+    state.selected = null;
+    $('#fontSel').value = state.font;
+    renderPresets(); renderSwatches(); renderSizes();
+    $$('.pane[data-pane="text"]').length;
+    draw();
+    return;
+  }
+  const sw = e.target.closest('[data-palette]');
+  if (sw) { state.palette = sw.dataset.palette; renderSwatches(); draw(); return; }
+  const greet = e.target.closest('[data-greet]');
+  if (greet) {
+    state.fields.greeting = GREETINGS[greet.dataset.greet];
+    $('#greeting').value = state.fields.greeting;
+    $$('[data-greet]').forEach(b => b.classList.toggle('active', b === greet));
+    draw();
+    return;
+  }
+  const filt = e.target.closest('[data-filter]');
+  if (filt) {
+    state.photo.filter = filt.dataset.filter;
+    renderFilterChips();
+    draw();
+    return;
+  }
+  const illo = e.target.closest('[data-illo]');
+  if (illo) {
+    const k = illo.dataset.illo;
+    state.illos[k] = !state.illos[k];
+    illo.classList.toggle('on', state.illos[k]);
+    illo.setAttribute('aria-pressed', state.illos[k]);
+    draw();
+    return;
+  }
+  const show = e.target.closest('[data-show]');
+  if (show) {
+    const k = show.dataset.show;
+    state.show[k] = !state.show[k];
+    show.classList.toggle('on', state.show[k]);
+    show.setAttribute('aria-pressed', state.show[k]);
+    draw();
+    return;
+  }
+  const style = e.target.closest('[data-style-toggle]');
+  if (style) {
+    const k = style.dataset.styleToggle;
+    state[k] = !state[k];
+    style.classList.toggle('on', state[k]);
+    draw();
+    return;
+  }
+  const nudge = e.target.closest('[data-nudge]');
+  if (nudge && state.selected) {
+    const [x, y] = nudge.dataset.nudge.split(',').map(Number);
+    const cur = getPos(state.selected);
+    setOffset(state.selected, cur.dx + x * 0.004, cur.dy + y * 0.004);
+    draw();
+    return;
+  }
+  const sideBtn = e.target.closest('[data-side]');
+  if (sideBtn) {
+    state.side = sideBtn.dataset.side;
+    state.selected = null;
+    draw();
+    return;
+  }
+  const ptab = e.target.closest('[data-pane]');
+  if (ptab && ptab.classList.contains('ptab')) {
+    $$('.ptab').forEach(b => b.classList.toggle('active', b === ptab));
+    $$('.pane').forEach(p => p.classList.toggle('active', p.dataset.pane === ptab.dataset.pane));
+  }
+});
+$('#sizeSel').addEventListener('change', (e) => { state.size = e.target.value; state.selected = null; draw(); });
+$('#guideChk').addEventListener('change', (e) => { state.guides = e.target.checked; draw(); });
+$('#foldChk').addEventListener('change', (e) => { state.foldLine = e.target.checked; draw(); });
+$('#frameChk').addEventListener('change', (e) => { state.frame = e.target.checked; draw(); });
+$('#fontSel').addEventListener('change', (e) => { state.font = e.target.value; draw(); });
+$('#scaleRange').addEventListener('input', (e) => {
+  state.type.scale = Number(e.target.value);
+  $('#scaleOut').textContent = Math.round(state.type.scale * 100) + '%';
+  draw();
+});
+$('#trackRange').addEventListener('input', (e) => {
+  state.type.tracking = Number(e.target.value);
+  $('#trackOut').textContent = String(state.type.tracking);
+  draw();
+});
+$('#lhRange').addEventListener('input', (e) => {
+  state.type.lh = Number(e.target.value);
+  $('#lhOut').textContent = state.type.lh.toFixed(2);
+  draw();
+});
+$('#zoomRange').addEventListener('input', (e) => {
+  state.photo.zoom = Number(e.target.value);
+  $('#zoomOut').textContent = Math.round(state.photo.zoom * 100) + '%';
+  draw();
+});
+$('#illoRange').addEventListener('input', (e) => {
+  state.illoScale = Number(e.target.value);
+  $('#illoOut').textContent = Math.round(state.illoScale * 100) + '%';
+  draw();
+});
+$('#qrRange').addEventListener('input', (e) => {
+  state.qrScale = Number(e.target.value);
+  $('#qrOut').textContent = Math.round(state.qrScale * 100) + '%';
+  draw();
+});
+$('#qrLabel').addEventListener('change', (e) => { state.qrLabel = e.target.value; draw(); });
+$('#qrLink').addEventListener('input', (e) => { state.fields.qrLink = e.target.value.trim(); draw(); });
+$('#greeting').addEventListener('input', (e) => { state.fields.greeting = e.target.value; draw(); });
+function bindField(id, key, isTextarea) {
+  const el = $(id);
+  el.value = state.fields[key];
+  el.addEventListener('input', () => {
+    state.fields[key] = isTextarea ? el.value : el.value;
+    draw();
+  });
+}
+bindField('#fGroom', 'groom');
+bindField('#fBride', 'bride');
+bindField('#fGroomP', 'groomParents');
+bindField('#fBrideP', 'brideParents');
+bindField('#fTime', 'time');
+bindField('#fVenue', 'venue');
+bindField('#fAddr', 'addr');
+bindField('#fTransport', 'transport', true);
+bindField('#fMeal', 'meal');
+bindField('#fAccount', 'account', true);
+$('#fDate').addEventListener('input', (e) => { state.fields.date = e.target.value; draw(); });
+$('#guests').addEventListener('input', updateQty);
+$('#checklist').addEventListener('change', updateChecklist);
+$('#resetPos').addEventListener('click', () => {
+  Object.keys(state.pos).forEach(k => { if (k.startsWith(state.preset + '|')) delete state.pos[k]; });
+  state.selected = null;
+  draw();
+  toast('위치를 처음으로 되돌렸어요');
+});
+$('#resetSel').addEventListener('click', () => {
+  if (!state.selected) return;
+  delete state.pos[posKey(state.selected)];
+  draw();
+});
+$('#resetPhoto').addEventListener('click', () => {
+  state.photo.zoom = 1; state.photo.px = 0; state.photo.py = 0;
+  $('#zoomRange').value = 1; $('#zoomOut').textContent = '100%';
+  draw();
+});
+$('#removePhoto').addEventListener('click', () => {
+  state.photo.img = null; state.photo.dataUrl = '';
+  $('#photoThumb').innerHTML = '';
+  draw();
+});
+$('#samplePhoto').addEventListener('click', () => {
+  const c = document.createElement('canvas');
+  c.width = 1200; c.height = 1500;
+  const x = c.getContext('2d');
+  const g = x.createLinearGradient(0, 0, 1200, 1500);
+  g.addColorStop(0, '#cfd8c8'); g.addColorStop(0.5, '#e8dcc6'); g.addColorStop(1, '#c9a98f');
+  x.fillStyle = g; x.fillRect(0, 0, 1200, 1500);
+  for (let i = 0; i < 26; i++) {
+    x.globalAlpha = 0.18 + Math.random() * 0.2;
+    x.fillStyle = i % 3 === 0 ? '#f6efe3' : (i % 3 === 1 ? '#a8b79a' : '#d9b79c');
+    x.beginPath();
+    x.arc(100 + Math.random() * 1000, 120 + Math.random() * 1260, 50 + Math.random() * 150, 0, Math.PI * 2);
+    x.fill();
+  }
+  x.globalAlpha = 0.5;
+  x.strokeStyle = '#7c8a6b'; x.lineWidth = 4;
+  for (let i = 0; i < 9; i++) {
+    x.beginPath();
+    x.moveTo(120 + i * 110, 1500);
+    x.bezierCurveTo(160 + i * 110, 1050, 60 + i * 110, 700, 140 + i * 110, 380);
+    x.stroke();
+  }
+  x.globalAlpha = 1;
+  const url = c.toDataURL('image/png');
+  const img = new Image();
+  img.onload = () => { setPhoto(img, url); toast('샘플 이미지를 넣었어요 — 실제 사진으로 바꿔 주세요'); };
+  img.src = url;
+});
+
+/* 사진 업로드 */
+function setPhoto(img, url) {
+  state.photo.img = img;
+  state.photo.dataUrl = url;
+  state.photo.zoom = 1; state.photo.px = 0; state.photo.py = 0;
+  $('#zoomRange').value = 1; $('#zoomOut').textContent = '100%';
+  const t = $('#photoThumb');
+  t.innerHTML = '';
+  const im = document.createElement('img');
+  im.src = url; im.alt = '업로드한 사진';
+  t.appendChild(im);
+  draw();
+}
+function loadFile(file) {
+  if (!file || !/^image\//.test(file.type)) { toast('이미지 파일만 올릴 수 있어요'); return; }
+  const reader = new FileReader();
+  reader.onload = () => {
+    const img = new Image();
+    img.onload = () => setPhoto(img, reader.result);
+    img.onerror = () => toast('사진을 읽지 못했어요');
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+}
+$('#drop').addEventListener('click', () => $('#fileInput').click());
+$('#fileInput').addEventListener('change', (e) => { if (e.target.files[0]) loadFile(e.target.files[0]); });
+['dragenter', 'dragover'].forEach(ev => $('#drop').addEventListener(ev, (e) => { e.preventDefault(); $('#drop').classList.add('drag'); }));
+['dragleave', 'drop'].forEach(ev => $('#drop').addEventListener(ev, (e) => { e.preventDefault(); $('#drop').classList.remove('drag'); }));
+$('#drop').addEventListener('drop', (e) => { if (e.dataTransfer.files[0]) loadFile(e.dataTransfer.files[0]); });
+
+/* ---------- 저장 (300dpi 메타데이터) ---------- */
+const CRC_TABLE = (() => {
+  const t = new Uint32Array(256);
+  for (let n = 0; n < 256; n++) {
+    let c = n;
+    for (let k = 0; k < 8; k++) c = (c & 1) ? (0xedb88320 ^ (c >>> 1)) : (c >>> 1);
+    t[n] = c >>> 0;
+  }
+  return t;
+})();
+function crc32(bytes) {
+  let c = 0xffffffff;
+  for (let i = 0; i < bytes.length; i++) c = CRC_TABLE[(c ^ bytes[i]) & 0xff] ^ (c >>> 8);
+  return (c ^ 0xffffffff) >>> 0;
+}
+async function withDpi(blob, type) {
+  try {
+    const buf = new Uint8Array(await blob.arrayBuffer());
+    if (type === 'image/png' && buf[12] === 0x49 && buf[13] === 0x48) {
+      const pos = 33; // after IHDR chunk
+      const ppm = Math.round(DPI / 0.0254);
+      const data = new Uint8Array(9);
+      const dv = new DataView(data.buffer);
+      dv.setUint32(0, ppm); dv.setUint32(4, ppm); data[8] = 1;
+      const typeBytes = new TextEncoder().encode('pHYs');
+      const crcIn = new Uint8Array(13);
+      crcIn.set(typeBytes, 0); crcIn.set(data, 4);
+      const chunk = new Uint8Array(21);
+      const cvv = new DataView(chunk.buffer);
+      cvv.setUint32(0, 9);
+      chunk.set(typeBytes, 4); chunk.set(data, 8);
+      cvv.setUint32(17, crc32(crcIn));
+      const out = new Uint8Array(buf.length + 21);
+      out.set(buf.subarray(0, pos), 0);
+      out.set(chunk, pos);
+      out.set(buf.subarray(pos), pos + 21);
+      return new Blob([out], { type });
+    }
+    if (type === 'image/jpeg' && buf[0] === 0xff && buf[1] === 0xd8 && buf[2] === 0xff && buf[3] === 0xe0) {
+      buf[13] = 1; buf[14] = 0x01; buf[15] = 0x2c; buf[16] = 0x01; buf[17] = 0x2c;
+      return new Blob([buf], { type });
+    }
+  } catch (e) { /* 메타데이터를 못 넣어도 저장은 계속 */ }
+  return blob;
+}
+
+/* ---------- 저장 ---------- */
+function fileBase(side) {
+  const s = SIZES[state.size];
+  const sideName = side === 'front' ? 'front' : 'back';
+  return `invitation_${state.preset}_${sideName}_${state.preset === 'fold' ? 'spread_' : ''}${s.label.replace(/\s|×/g, '')}_300dpi`;
+}
+async function exportSide(side, fmt) {
+  const prevSide = state.side;
+  const prevSel = state.selected;
+  state.side = side;
+  state.selected = null;
+  draw();
+  if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+  const type = fmt === 'jpg' ? 'image/jpeg' : 'image/png';
+  const raw = await new Promise(res => cv.toBlob(res, type, 0.94));
+  const blob = raw ? await withDpi(raw, type) : null;
+  state.side = prevSide;
+  state.selected = prevSel;
+  draw();
+  if (!blob) { toast('저장에 실패했어요'); return false; }
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${fileBase(side)}.${fmt}`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+  return true;
+}
+$('#saveOne').addEventListener('click', async () => {
+  const fmt = $('#format').value;
+  const ok = await exportSide(state.side, fmt);
+  if (ok) toast(`${state.side === 'front' ? '앞면' : '뒷면'} 저장 · ${cv.width}×${cv.height}px`);
+});
+$('#saveBoth').addEventListener('click', async () => {
+  const fmt = $('#format').value;
+  toast('앞면을 저장하고 이어서 뒷면을 저장해요');
+  const a = await exportSide('front', fmt);
+  await new Promise(r => setTimeout(r, 700));
+  const b = await exportSide('back', fmt);
+  if (a && b) toast('앞면·뒷면 저장 완료');
+});
+
+/* ---------- 초기화 ---------- */
+function init() {
+  renderPresets();
+  renderSwatches();
+  renderFonts();
+  renderGreetChips();
+  renderFilterChips();
+  renderSizes();
+  renderPapers();
+  renderChecklist();
+  $('#greeting').value = state.fields.greeting;
+  $('#qrLabel').value = state.qrLabel;
+  $('#qrLink').value = state.fields.qrLink;
+  $('#scaleOut').textContent = '100%';
+  $('#trackOut').textContent = '0';
+  $('#lhOut').textContent = state.type.lh.toFixed(2);
+  updateQty();
+  draw();
+  const fams = ['Nanum Myeongjo', 'Gowun Batang', 'Gowun Dodum', 'Noto Sans KR', 'Nanum Pen Script', 'Cormorant Garamond', 'Playfair Display', 'Parisienne'];
+  const loads = [];
+  fams.forEach(f => {
+    loads.push(document.fonts.load(`400 40px "${f}"`).catch(() => {}));
+    loads.push(document.fonts.load(`700 40px "${f}"`).catch(() => {}));
+  });
+  Promise.all(loads).then(() => { fontsReady = true; draw(); setTimeout(draw, 400); });
+  document.fonts.addEventListener('loadingdone', () => draw());
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+else init();
+</script>
+</body>
+</html>
